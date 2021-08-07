@@ -2,3 +2,4 @@
 /.env
 MobileTests/
 MobileUITests/
+Mobile.xcodeproj/
