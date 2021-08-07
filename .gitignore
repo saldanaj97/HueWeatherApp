@@ -1,4 +1,5 @@
 /.env
+node_modules/
 Mobile/MobileTests/Info.plist
 Mobile/MobileTests/MobileTests.swift
 Mobile/MobileUITests/MobileUITests.swift
