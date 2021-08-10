@@ -1,5 +1,9 @@
 /.env
 node_modules/
-Mobile/MobileTests/Info.plist
-Mobile/MobileTests/MobileTests.swift
-Mobile/MobileUITests/MobileUITests.swift
+mobile/dart_tool
+mobile/idea
+mobile/android
+mobile/ios
+mobile/test
+
+
