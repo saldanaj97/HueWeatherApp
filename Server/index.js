@@ -41,5 +41,5 @@ var getWeatherRequest = axios({
   });
 
 app.get("/conditions", (getWeatherRequest, res) => {
-  res.send(`Current weather conditions from the API: ${currentConditions}. `);
+  res.send(currentConditions);
 });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
 import 'package:app_settings/app_settings.dart';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 
@@ -31,11 +32,13 @@ class WeatherData extends StatefulWidget {
 class _WeatherDataState extends State<WeatherData> {
   String longitude = '';
   String latitude = '';
+  String weatherConditions = '';
 
   @override
   void initState() {
     super.initState();
     getLocation();
+    getWeatherFromAPI();
   }
 
   void getLocation() async {
@@ -44,6 +47,8 @@ class _WeatherDataState extends State<WeatherData> {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
     LocationData _locationData;
+
+    location.changeSettings(accuracy: LocationAccuracy.low);
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -84,6 +89,15 @@ class _WeatherDataState extends State<WeatherData> {
     });
   }
 
+  void getWeatherFromAPI() async {
+    var url = Uri.parse('http://localhost:3000/conditions');
+    var response = await http.get(url);
+    setState(() {
+      print('Response status from API : ${response.statusCode}');
+      weatherConditions = response.body;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -92,11 +106,17 @@ class _WeatherDataState extends State<WeatherData> {
         appBar: AppBar(title: const Text('Weather Light Sync')),
         body: Container(
           alignment: Alignment.center,
-          child: ElevatedButton(
-            onPressed: () => {
-              //getUserAPI(),
-            },
-            child: Text('Get weather data'),
+          child: Column(
+            children: [
+              Text(
+                'The weather conditions for your location are currently: ${weatherConditions}',
+                style: TextStyle(fontSize: 25),
+              ),
+              ElevatedButton(
+                onPressed: null,
+                child: Text("Button"),
+              )
+            ],
           ),
         ),
       ),
