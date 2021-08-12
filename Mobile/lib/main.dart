@@ -91,13 +91,11 @@ class _WeatherDataState extends State<WeatherData> {
 
   void getWeatherFromAPI() async {
     var url = Uri.parse('http://localhost:3000/conditions/${latitude}/${longitude}');
-    print(url);
     var response = await http.get(url);
     setState(() {
       print('Response status from API for weather: ${response.statusCode}');
       weatherConditions = response.body;
     });
-    print(weatherConditions);
   }
 
   @override
