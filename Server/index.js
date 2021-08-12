@@ -19,27 +19,27 @@ app.listen(port, () => {
   );
 });
 
-var getWeatherRequest = axios({
-  method: "GET",
-  url: "https://api.openweathermap.org/data/2.5/weather",
-  headers: {
-    "content-type": "application/octet-stream",
-  },
-  params: {
-    zip: 75149,
-    appID: process.env.OPEN_WEATHER_API_KEY,
-  },
-})
-  .then((response) => {
-    console.log(
-      `Current weather conditions from the API: ${response.data.weather[0].main}`
-    );
-    currentConditions = response.data.weather[0].main;
+app.get("/conditions/:lat/:long", (req, res) => {
+  axios({
+    method: "GET",
+    url: "https://api.openweathermap.org/data/2.5/weather",
+    headers: {
+      "content-type": "application/octet-stream",
+    },
+    params: {
+      lat: req.params.lat,
+      lon: req.params.long,
+      appID: process.env.OPEN_WEATHER_API_KEY,
+    },
   })
-  .catch((error) => {
-    console.log(error);
-  });
-
-app.get("/conditions", (getWeatherRequest, res) => {
+    .then((response) => {
+      console.log(
+        `Current weather conditions from the openWeather API: ${response.data.weather[0].main}`
+      );
+      currentConditions = response.data.weather[0].main;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   res.send(currentConditions);
 });

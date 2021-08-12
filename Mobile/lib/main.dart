@@ -38,7 +38,6 @@ class _WeatherDataState extends State<WeatherData> {
   void initState() {
     super.initState();
     getLocation();
-    getWeatherFromAPI();
   }
 
   void getLocation() async {
@@ -87,15 +86,18 @@ class _WeatherDataState extends State<WeatherData> {
       _locationData.longitude.toString() != '' ? longitude = _locationData.longitude.toString() : longitude = 'null';
       _locationData.latitude.toString() != '' ? latitude = _locationData.latitude.toString() : latitude = 'null';
     });
+    getWeatherFromAPI();
   }
 
   void getWeatherFromAPI() async {
-    var url = Uri.parse('http://localhost:3000/conditions');
+    var url = Uri.parse('http://localhost:3000/conditions/${latitude}/${longitude}');
+    print(url);
     var response = await http.get(url);
     setState(() {
-      print('Response status from API : ${response.statusCode}');
+      print('Response status from API for weather: ${response.statusCode}');
       weatherConditions = response.body;
     });
+    print(weatherConditions);
   }
 
   @override
