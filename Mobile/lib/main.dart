@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 
-import 'synclights.dart';
+import 'addlights.dart';
 
 void main() {
-  runApp(SyncLights());
+  runApp(AddLights());
 }
 
 class MyApp extends StatelessWidget {
@@ -101,6 +101,14 @@ class _WeatherDataState extends State<WeatherData> {
     });
   }
 
+  void syncLights() async {
+    var url = Uri.parse('http://localhost:3000/sync');
+    var response = await http.get(url);
+    setState(() {
+      print('Syncing lights. ');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -114,6 +122,12 @@ class _WeatherDataState extends State<WeatherData> {
               Text(
                 'The weather conditions for your location are currently: ${weatherConditions}',
                 style: TextStyle(fontSize: 25),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  syncLights();
+                },
+                child: Text("Sync Lights"),
               ),
             ],
           ),

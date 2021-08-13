@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-class SyncLights extends StatefulWidget {
+class AddLights extends StatefulWidget {
   @override
-  _SyncLightsState createState() => _SyncLightsState();
+  _AddLightsState createState() => _AddLightsState();
 }
 
-class _SyncLightsState extends State<SyncLights> {
+class _AddLightsState extends State<AddLights> {
   @override
   void initState() {
     super.initState();
@@ -18,14 +18,6 @@ class _SyncLightsState extends State<SyncLights> {
     var response = await http.get(url);
     setState(() {
       print(response.body);
-    });
-  }
-
-  void syncLights() async {
-    var url = Uri.parse('http://localhost:3000/sync');
-    var response = await http.get(url);
-    setState(() {
-      print('Syncing lights. ');
     });
   }
 
@@ -44,12 +36,6 @@ class _SyncLightsState extends State<SyncLights> {
                   getLocalBridges();
                 },
                 child: Text("Get Bridges on Local Network"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  syncLights();
-                },
-                child: Text("Sync Lights"),
               ),
             ],
           ),
