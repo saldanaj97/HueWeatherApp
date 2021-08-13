@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Weather Light Sync',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.grey,
       ),
       home: WeatherData(),
     );
@@ -33,6 +33,7 @@ class _WeatherDataState extends State<WeatherData> {
   String longitude = '';
   String latitude = '';
   String weatherConditions = '';
+  List bridgeIPAddresses = [];
 
   @override
   void initState() {
@@ -98,6 +99,22 @@ class _WeatherDataState extends State<WeatherData> {
     });
   }
 
+  void getLocalBridges() async {
+    var url = Uri.parse('http://localhost:3000/bridges');
+    var response = await http.get(url);
+    setState(() {
+      print(response.body);
+    });
+  }
+
+  void syncLights() async {
+    var url = Uri.parse('http://localhost:3000/sync');
+    var response = await http.get(url);
+    setState(() {
+      print('Syncing lights. ');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -113,9 +130,17 @@ class _WeatherDataState extends State<WeatherData> {
                 style: TextStyle(fontSize: 25),
               ),
               ElevatedButton(
-                onPressed: null,
-                child: Text("Button"),
-              )
+                onPressed: () {
+                  getLocalBridges();
+                },
+                child: Text("Get Bridges on Local Network"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  syncLights();
+                },
+                child: Text("Sync Lights"),
+              ),
             ],
           ),
         ),
