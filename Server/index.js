@@ -2,10 +2,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const axios = require("axios");
+const v3 = require("node-hue-api");
 require("dotenv").config();
-
-// Variable to hold the current weather conditions
-var currentConditions = "none";
 
 app.use(express.json());
 
@@ -19,6 +17,8 @@ app.listen(port, () => {
   );
 });
 
+// Variable to hold the current weather conditions in the request below
+var currentConditions = "none";
 app.get("/conditions/:lat/:long", (req, res) => {
   axios({
     method: "GET",
@@ -42,4 +42,30 @@ app.get("/conditions/:lat/:long", (req, res) => {
       console.log(error);
     });
   res.send(currentConditions);
+});
+
+// Hue API
+app.get("/bridges", (req, res) => {
+  v3.discovery
+    .nupnpSearch()
+    .then((searchResults) => {
+      const hostBridge = "192.168.1.150"; //TODO: Change to user selected host address from a DB later on
+      return v3.api.createLocal(hostBridge).connect(process.env.HUE_USERNAME);
+    })
+    .then((api) => {
+      return api.lights.getAll();
+    })
+    .then((allLights) => {
+      console.log(JSON.stringify(allLights, null, 2));
+      allLights.forEach((light) => {
+        console.log(light.name.toString());
+      });
+    })
+    .catch((err) => {
+      console.error("Error with gathering light and bridge info. " + err);
+    });
+});
+
+app.get("/sync", (req, res) => {
+  res.send("Syncing light with the weather. ");
 });
