@@ -56,7 +56,7 @@ app.get("/bridges", (req, res) => {
       return api.lights.getAll();
     })
     .then((allLights) => {
-      console.log(JSON.stringify(allLights, null, 2));
+      //console.log(JSON.stringify(allLights, null, 2));
       allLights.forEach((light) => {
         console.log(light.name.toString());
       });

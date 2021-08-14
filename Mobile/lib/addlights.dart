@@ -23,21 +23,15 @@ class _AddLightsState extends State<AddLights> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return CupertinoApp(
       title: 'Weather Light Sync',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Weather Light Sync')),
-        body: Container(
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  getLocalBridges();
-                },
-                child: Text("Get Bridges on Local Network"),
-              ),
-            ],
+      home: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Add Lights', style: TextStyle(fontSize: 25)),
+        ),
+        child: SafeArea(
+          child: Container(
+            child: Text('Hey'),
           ),
         ),
       ),
