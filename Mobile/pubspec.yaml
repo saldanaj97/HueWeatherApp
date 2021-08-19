@@ -33,6 +33,7 @@ dependencies:
   app_settings: ^4.1.1
   json_serializable: ^4.1.4
   build_runner: ^2.1.1
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'View/home.dart';
+import 'app.dart';
 
 void main() {
-  runApp(WeatherData());
+  runApp(HueWeatherSync());
 }

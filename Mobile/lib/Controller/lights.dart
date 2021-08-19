@@ -8,3 +8,8 @@ void syncLights() async {
   var url = Uri.parse('http://localhost:3000/sync');
   var response = await http.get(url);
 }
+
+void getLocalBridges() async {
+  var url = Uri.parse('http://localhost:3000/bridges');
+  var response = await http.get(url);
+}
