@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(CupertinoIcons.lightbulb), label: 'Lights'),
           BottomNavigationBarItem(icon: Icon(CupertinoIcons.settings), label: 'Settings'),
         ],
@@ -24,18 +23,11 @@ class HomePage extends StatelessWidget {
           case 0:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
-                child: Home(),
-              );
-            });
-            break;
-          case 1:
-            returnValue = CupertinoTabView(builder: (context) {
-              return CupertinoPageScaffold(
                 child: WeatherView(),
               );
             });
             break;
-          case 2:
+          case 1:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                 child: SettingsView(),
@@ -45,12 +37,6 @@ class HomePage extends StatelessWidget {
         }
         return returnValue;
       },
-    );
-  }
-
-  Widget Home() {
-    return Container(
-      child: Text('Home'),
     );
   }
 
