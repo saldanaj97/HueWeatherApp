@@ -34,9 +34,9 @@ app.get("/conditions/:lat/:long", (req, res) => {
   })
     .then((response) => {
       console.log(
-        `Current weather conditions from the openWeather API: ${response.data.weather[0].main}`
+        `Current weather conditions from the openWeather API: ${response.data}`
       );
-      currentConditions = response.data.weather[0].main;
+      currentConditions = response.data;
     })
     .catch((error) => {
       console.log(error);
