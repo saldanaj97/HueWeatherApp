@@ -1,62 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:mobile/Model/location.dart';
-import 'package:mobile/Model/weatherdata.dart';
 import 'package:mobile/Controller/location.dart';
-import 'package:mobile/Controller/basecommands.dart';
+import 'package:mobile/View/weather.dart';
+import 'package:mobile/View/settings.dart';
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  LocationCoordinates _coordinates = LocationCoordinates();
-  LocationCommands _locationCommands = LocationCommands();
-  @override
-  void initState() {
-    super.initState();
-  }
+class HomePage extends StatelessWidget {
+  final LocationCommands _locationCommands = LocationCommands();
 
   @override
   Widget build(BuildContext context) {
-    void setCoordinates(LocationCoordinates _coordinates) {
-      _locationCommands.getLocation(context);
-      _coordinates.currentLongitude = context.select<LocationCoordinates, String>((value) => value.currentLongitude);
-      _coordinates.currentLatitude = context.select<LocationCoordinates, String>((value) => value.currentLatitude);
-      print(_coordinates);
-    }
-
-    setCoordinates(_coordinates);
-
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Weather Light Sync'),
+    _locationCommands.locationFromPhone(context);
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.lightbulb), label: 'Lights'),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.settings), label: 'Settings'),
+        ],
       ),
-      child: SafeArea(
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  Text(
-                    'Current weather conditions:',
-                    style: TextStyle(
-                      color: CupertinoColors.white,
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {},
-                    child: Text("Get weather"),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      tabBuilder: (context, index) {
+        late final CupertinoTabView returnValue;
+        switch (index) {
+          case 0:
+            returnValue = CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(
+                child: Home(),
+              );
+            });
+            break;
+          case 1:
+            returnValue = CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(
+                child: WeatherView(),
+              );
+            });
+            break;
+          case 2:
+            returnValue = CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(
+                child: SettingsView(),
+              );
+            });
+            break;
+        }
+        return returnValue;
+      },
     );
   }
+
+  Widget Home() {
+    return Container(
+      child: Text('Home'),
+    );
+  }
+
+/*   Widget returnWeatherWidget() {
+    return FutureBuilder(
+        future: weatherSet,
+        builder: (context, data) {
+          if (data.data == true) {
+            return SafeArea(
+              child: Container(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'Current weather conditions: ${_weatherCommands.weatherData[0]["main"]}',
+                          style: TextStyle(
+                            color: CupertinoColors.white,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            //_weatherData.newCurrentWeather = 'Clouds';
+                          },
+                          child: Text("Get weather"),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Center(child: CupertinoActivityIndicator());
+          }
+        });
+  } */
 }
