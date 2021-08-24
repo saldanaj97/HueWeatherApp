@@ -11,20 +11,18 @@ import '/View/home.dart';
 
 class HueWeatherSync extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (c) => LocationCoordinates()),
-        ChangeNotifierProvider(create: (c) => WeatherData()),
-        Provider(create: (c) => WeatherService()),
         Provider(create: (c) => LocationService()),
+        Provider(create: (c) => WeatherService()),
       ],
       child: Builder(builder: (context) {
         Commands.init(context);
         return CupertinoApp(
           theme: CupertinoThemeData(brightness: Brightness.dark),
-          home: Home(),
+          home: HomePage(),
         );
       }),
     );
