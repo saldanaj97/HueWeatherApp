@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobile/Controller/location.dart';
-import 'package:mobile/View/weather.dart';
+import 'package:mobile/View/light.dart';
 import 'package:mobile/View/settings.dart';
 
 class HomePage extends StatelessWidget {
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
           case 0:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
-                child: WeatherView(),
+                child: LightsView(),
               );
             });
             break;
@@ -39,40 +39,4 @@ class HomePage extends StatelessWidget {
       },
     );
   }
-
-/*   Widget returnWeatherWidget() {
-    return FutureBuilder(
-        future: weatherSet,
-        builder: (context, data) {
-          if (data.data == true) {
-            return SafeArea(
-              child: Container(
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'Current weather conditions: ${_weatherCommands.weatherData[0]["main"]}',
-                          style: TextStyle(
-                            color: CupertinoColors.white,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            //_weatherData.newCurrentWeather = 'Clouds';
-                          },
-                          child: Text("Get weather"),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return Center(child: CupertinoActivityIndicator());
-          }
-        });
-  } */
 }
