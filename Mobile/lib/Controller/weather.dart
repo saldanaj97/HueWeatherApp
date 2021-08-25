@@ -19,8 +19,12 @@ class WeatherCommands extends BaseCommands {
           (value) => {
             responseMap = jsonDecode(value.body),
             weatherData.addAll(responseMap["weather"]),
-            temperatureData.replaceRange(0, 0,
-                [responseMap["main"]["temp"], responseMap["main"]["feels_like"], responseMap["main"]["temp_min"], responseMap["main"]["temp_max"]])
+            temperatureData.replaceRange(0, 0, [
+              toFarenheit(responseMap["main"]["temp"]),
+              toFarenheit(responseMap["main"]["feels_like"]),
+              toFarenheit(responseMap["main"]["temp_min"]),
+              toFarenheit(responseMap["main"]["temp_max"]),
+            ])
           },
         );
 
