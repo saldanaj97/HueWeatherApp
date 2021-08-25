@@ -15,7 +15,9 @@ class WeatherCommands extends BaseCommands {
   Future<bool> getWeatherDataFromAPI(LocationCoordinates coordinates) {
     Map<String, dynamic> responseMap;
     // Call the API for the weather data
-    weatherService.getCurrentWeather(coordinates).then(
+    weatherService
+        .getCurrentWeather(coordinates)
+        .then(
           (value) => {
             responseMap = jsonDecode(value.body),
             weatherData.addAll(responseMap["weather"]),
@@ -26,7 +28,8 @@ class WeatherCommands extends BaseCommands {
               toFarenheit(responseMap["main"]["temp_max"]),
             ])
           },
-        );
+        )
+        .catchError((e) => {print('Error: ' + e)});
 
     return Future<bool>.value(true);
   }
