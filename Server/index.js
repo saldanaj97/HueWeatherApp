@@ -56,13 +56,14 @@ app.get("/bridges", (req, res) => {
       return api.lights.getAll();
     })
     .then((allLights) => {
-      //console.log(JSON.stringify(allLights, null, 2));
+      var lights = [];
       allLights.forEach((light) => {
-        console.log(light.name.toString());
+        lights.push(light.data);
       });
+      res.send(lights);
     })
     .catch((err) => {
-      console.error("Error with gathering light and bridge info. " + err);
+      console.log("Error with gathering light and bridge info. " + err);
     });
 });
 
