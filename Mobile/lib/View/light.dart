@@ -18,36 +18,36 @@ class _LightsViewState extends State<LightsView> {
     this.localBridges();
   }
 
+  // Method to get the lights connected to a local bridge
   localBridges() async {
     List<dynamic> responseMap;
-    LightInfo _lightInfo = LightInfo();
-    LightState _lightState = LightState();
     LightService _lightService = LightService();
     List lights = [];
 
     _lightService.getLights().then((value) => {
           responseMap = jsonDecode(value.body),
           responseMap.forEach((value) => {
-                // Lightstate obj
-                _lightState.on = value["state"]["on"],
-                _lightState.bri = value["state"]["bri"],
-                _lightState.hue = value["state"]["hue"],
-                _lightState.sat = value["state"]["sat"],
-                _lightState.effect = value["state"]["effect"],
-
-                // LightInfo obj
-                _lightInfo.state = _lightState,
-                _lightInfo.type = value["type"],
-                _lightInfo.name = value["name"],
-                _lightInfo.uniqueID = value["uniqueid"],
-                _lightInfo.productName = value["productname"],
-
-                // Add the light and its info to the light list
-                lights.add(Light(value["id"], _lightInfo))
+                lights.add(
+                  Light(
+                      value["id"],
+                      LightInfo(
+                        value["type"],
+                        value["name"],
+                        value["uniqueid"],
+                        value["productname"],
+                      ),
+                      LightState(
+                        value["state"]["on"],
+                        value["state"]["bri"],
+                        value["state"]["hue"],
+                        value["state"]["sat"],
+                        value["state"]["effect"],
+                      )),
+                ),
+                setState(() {
+                  _lights = lights;
+                }),
               }),
-          setState(() {
-            _lights = lights;
-          }),
         });
   }
 
@@ -61,6 +61,24 @@ class _LightsViewState extends State<LightsView> {
           slivers: [
             CupertinoSliverNavigationBar(
               largeTitle: Text('Lights'),
+            ),
+            SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 250,
+                mainAxisSpacing: 5.0,
+                crossAxisSpacing: 5.0,
+                childAspectRatio: 1.0,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, int index) {
+                  return Container(
+                    alignment: Alignment.center,
+                    color: CupertinoColors.darkBackgroundGray,
+                    child: Text(_lights[index].lightInfo.name),
+                  );
+                },
+                childCount: _lights.length,
+              ),
             )
           ],
         ),

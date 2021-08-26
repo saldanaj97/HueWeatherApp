@@ -1,16 +1,18 @@
 class Light {
-  final int id;
-  final LightInfo lightInfo;
+  int id;
+  LightInfo lightInfo;
+  LightState lightState;
 
-  Light(this.id, this.lightInfo);
+  Light(this.id, this.lightInfo, this.lightState);
 }
 
 class LightInfo {
-  LightState state = LightState();
   String type = '';
   String name = '';
   String uniqueID = '';
   String productName = '';
+
+  LightInfo(this.type, this.name, this.uniqueID, this.productName);
 }
 
 class LightState {
@@ -19,4 +21,6 @@ class LightState {
   int hue = 0;
   int sat = 0;
   String effect = '';
+
+  LightState(this.on, this.bri, this.hue, this.sat, this.effect);
 }
