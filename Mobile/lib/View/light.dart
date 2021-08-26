@@ -18,7 +18,7 @@ class _LightsViewState extends State<LightsView> {
     this.localBridges();
   }
 
-  Future<List> localBridges() async {
+  localBridges() async {
     List<dynamic> responseMap;
     LightInfo _lightInfo = LightInfo();
     LightState _lightState = LightState();
@@ -49,21 +49,26 @@ class _LightsViewState extends State<LightsView> {
             _lights = lights;
           }),
         });
-    return Future<List>.value(lights);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Data is ready
     if (_lights.length > 0) {
       return Container(
         height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: Text('${_lights[0].id}'),
+        child: CustomScrollView(
+          slivers: [
+            CupertinoSliverNavigationBar(
+              largeTitle: Text('Lights'),
+            )
+          ],
         ),
       );
     } else {
+      // Data is loading
       return Center(
-        child: Text('Loading Light List'),
+        child: CupertinoActivityIndicator(),
       );
     }
   }
