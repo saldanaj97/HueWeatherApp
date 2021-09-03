@@ -21,6 +21,8 @@ class LightState {
   int hue = 0;
   int sat = 0;
   String effect = '';
+  double x = 0.0;
+  double y = 0.0;
 
-  LightState(this.on, this.bri, this.hue, this.sat, this.effect);
+  LightState(this.on, this.bri, this.hue, this.sat, this.effect, this.x, this.y);
 }

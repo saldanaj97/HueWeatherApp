@@ -42,6 +42,8 @@ class _LightsViewState extends State<LightsView> {
                         value["state"]["hue"],
                         value["state"]["sat"],
                         value["state"]["effect"],
+                        value["state"]["xy"][0],
+                        value["state"]["xy"][1],
                       )),
                 ),
                 setState(() {
@@ -56,7 +58,6 @@ class _LightsViewState extends State<LightsView> {
     // Data is ready
     if (_lights.length > 0) {
       return Container(
-        height: MediaQuery.of(context).size.height,
         child: CustomScrollView(
           slivers: [
             CupertinoSliverNavigationBar(
@@ -64,22 +65,27 @@ class _LightsViewState extends State<LightsView> {
             ),
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 250,
+                maxCrossAxisExtent: 450,
                 mainAxisSpacing: 5.0,
                 crossAxisSpacing: 5.0,
-                childAspectRatio: 1.0,
+                childAspectRatio: 5,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, int index) {
                   return Container(
-                    alignment: Alignment.center,
-                    color: CupertinoColors.darkBackgroundGray,
-                    child: Text(_lights[index].lightInfo.name),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        lightList(_lights, index),
+                      ],
+                    ),
                   );
                 },
                 childCount: _lights.length,
               ),
-            )
+            ),
           ],
         ),
       );
@@ -90,4 +96,48 @@ class _LightsViewState extends State<LightsView> {
       );
     }
   }
+
+  // Widget for each individual light container in the list
+  Widget lightList(_lights, index) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 13,
+        color: CupertinoColors.darkBackgroundGray,
+        child: Row(
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(15),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    _lights[index].lightInfo.name,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: CupertinoSwitch(
+                    value: _lights[index].lightState.on,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _lights[index].lightState.on = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+// TODO: Implement a function to convert the hue XY array to RGB for the application to use
+// Formulas for hue color conversion are from the link below:
+// https://github.com/PhilipsHue/PhilipsHueSDK-iOS-OSX/commit/00187a3db88dedd640f5ddfa8a474458dff4e1db
 }
