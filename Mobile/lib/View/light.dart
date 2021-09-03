@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
-import 'dart:math';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/Service/lightservice.dart';
 
@@ -100,8 +99,9 @@ class _LightsViewState extends State<LightsView> {
 
   // Widget for each individual light container in the list
   Widget lightList(_lights, index) {
+    LightService _lightService = LightService();
     List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
-    //print(rgb);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(15.0),
       child: Container(
@@ -128,6 +128,10 @@ class _LightsViewState extends State<LightsView> {
                     onChanged: (bool value) {
                       setState(() {
                         _lights[index].lightState.on = value;
+                        _lightService
+                            .setLights(_lights[index].id, value, _lights[index].lightState.bri)
+                            .then((result) => print(result.body.toString()));
+                        print('Light: ${_lights[index].id} is now set to ${value}');
                       });
                     },
                   ),
@@ -140,10 +144,8 @@ class _LightsViewState extends State<LightsView> {
     );
   }
 
-// TODO: Implement a function to convert the hue XY array to RGB for the application to use
-// Formulas for hue color conversion are from the link below:
+// Formulas for hue xy to rgb color conversion are from the link below:
 // https://github.com/PhilipsHue/PhilipsHueSDK-iOS-OSX/commit/00187a3db88dedd640f5ddfa8a474458dff4e1db
-
   List XYtoRGB(double hueX, double hueY, double brightness) {
     List rgb = [];
 
@@ -164,8 +166,6 @@ class _LightsViewState extends State<LightsView> {
     rgb.add(r);
     rgb.add(g);
     rgb.add(b);
-
-    print(rgb);
     return rgb;
   }
 }

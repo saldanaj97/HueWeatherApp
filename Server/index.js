@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const axios = require("axios");
 const v3 = require("node-hue-api");
+const LightState = require("node-hue-api").v3.lightStates.LightState;
 require("dotenv").config();
 
 app.use(express.json());
@@ -65,6 +66,35 @@ app.get("/bridges", (req, res) => {
     .catch((err) => {
       console.log("Error with gathering light and bridge info. " + err);
     });
+});
+
+app.put("/lights/:LIGHT_ID/:state_val/:brightness", (req, res) => {
+  var lightOn = req.params.state_val;
+  const state = new LightState();
+  v3.discovery
+    .nupnpSearch()
+    .then(() => {
+      const host = "192.168.1.150";
+      return v3.api.createLocal(host).connect(process.env.HUE_USERNAME);
+    })
+    .then((api) => {
+      // Using a LightState object to build the desired state
+      if (lightOn == "true") {
+        console.log(lightOn);
+        state.on();
+      } else {
+        console.log("off");
+        state.off();
+      }
+
+      return api.lights.setLightState(req.params.LIGHT_ID, state);
+    })
+    .then((result) => {
+      res.send(`Light state change was successful? ${result}`);
+      console.log(`Light state change was successful? ${result}`);
+    });
+
+  //res.send(api.lights.setLightState(req.params.LIGHT_ID, state));
 });
 
 app.get("/sync", (req, res) => {
