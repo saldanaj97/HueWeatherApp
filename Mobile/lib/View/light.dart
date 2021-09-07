@@ -65,33 +65,27 @@ class _LightsViewState extends State<LightsView> {
               largeTitle: Text('Lights and Scenes'),
             ),
             SliverGrid(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 450,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
                 mainAxisSpacing: 5.0,
                 crossAxisSpacing: 5.0,
-                childAspectRatio: 2.5,
+                childAspectRatio: 2,
               ),
               delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                return SingleChildScrollView(
-                  child: lightScenes(),
-                );
+                return lightScenes();
               }, childCount: 1),
             ),
             SliverGrid(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 450,
-                mainAxisSpacing: 5.0,
-                crossAxisSpacing: 5.0,
-                childAspectRatio: 10,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 2,
               ),
               delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                return SingleChildScrollView(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Lights',
-                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-                    ),
+                return Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Lights',
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                   ),
                 );
               }, childCount: 1),
@@ -128,9 +122,16 @@ class _LightsViewState extends State<LightsView> {
     return Container(
       child: Column(
         children: [
-          Text(
-            'Scenes',
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(15),
+            child: Text(
+              'Scenes',
+              style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           Row(
             children: [
@@ -147,6 +148,7 @@ class _LightsViewState extends State<LightsView> {
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/weather');
+                      print('Button pressed');
                     },
                   ),
                 ),
@@ -178,47 +180,44 @@ class _LightsViewState extends State<LightsView> {
     LightService _lightService = LightService();
     List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
-    return Expanded(
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-            decoration: BoxDecoration(
-                color:
-                    Color.fromRGBO(rgb[0].round() * 255, rgb[1].round() * 255, rgb[2].round() * 255, _lights[index].lightState.bri.toDouble() / 254),
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      _lights[index].lightInfo.name,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20),
-                    ),
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(rgb[0].round() * 255, rgb[1].round() * 255, rgb[2].round() * 255, _lights[index].lightState.bri.toDouble() / 254),
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    _lights[index].lightInfo.name,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: CupertinoSwitch(
-                      value: _lights[index].lightState.on,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _lights[index].lightState.on = value;
-                          _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
-                        });
-                      },
-                    ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: CupertinoSwitch(
+                    value: _lights[index].lightState.on,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _lights[index].lightState.on = value;
+                        _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
+                      });
+                    },
                   ),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 
