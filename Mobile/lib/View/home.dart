@@ -5,11 +5,8 @@ import 'package:mobile/View/light.dart';
 import 'package:mobile/View/settings.dart';
 
 class HomePage extends StatelessWidget {
-  final LocationCommands _locationCommands = LocationCommands();
-
   @override
   Widget build(BuildContext context) {
-    _locationCommands.locationFromPhone(context);
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[

@@ -24,7 +24,7 @@ class HueWeatherSync extends StatelessWidget {
           initialRoute: '/',
           routes: {
             '/': (context) => HomePage(),
-            '/weather': (context) => WeatherPage(),
+            '/weather': (context) => const WeatherPage(),
           },
         );
       }),

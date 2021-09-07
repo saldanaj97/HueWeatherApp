@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/Service/lightservice.dart';
+import 'package:mobile/View/weather.dart';
 
 class LightsView extends StatefulWidget {
+  const LightsView({Key? key}) : super(key: key);
   @override
   _LightsViewState createState() => _LightsViewState();
 }
@@ -147,8 +149,7 @@ class _LightsViewState extends State<LightsView> {
                       style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/weather');
-                      print('Button pressed');
+                      Navigator.push(context, new CupertinoPageRoute(builder: (context) => new WeatherPage()));
                     },
                   ),
                 ),

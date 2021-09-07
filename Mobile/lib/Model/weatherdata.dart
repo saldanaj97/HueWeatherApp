@@ -5,6 +5,7 @@ class WeatherData {
   double temp_max = 0;
   String main = '';
   String description = '';
+  String cityName = '';
 
-  WeatherData(this.temp, this.feels_like, this.temp_min, this.temp_max, this.main, this.description);
+  WeatherData(this.temp, this.feels_like, this.temp_min, this.temp_max, this.main, this.description, this.cityName);
 }
