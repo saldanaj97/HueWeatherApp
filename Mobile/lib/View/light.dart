@@ -58,29 +58,55 @@ class _LightsViewState extends State<LightsView> {
     // Data is ready
     if (_lights.length > 0) {
       return Container(
+        height: MediaQuery.of(context).size.height,
         child: CustomScrollView(
           slivers: [
             CupertinoSliverNavigationBar(
-              largeTitle: Text('Lights'),
+              largeTitle: Text('Lights and Scenes'),
             ),
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 450,
                 mainAxisSpacing: 5.0,
                 crossAxisSpacing: 5.0,
-                childAspectRatio: 5,
+                childAspectRatio: 2.5,
+              ),
+              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                return SingleChildScrollView(
+                  child: lightScenes(),
+                );
+              }, childCount: 1),
+            ),
+            SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 450,
+                mainAxisSpacing: 5.0,
+                crossAxisSpacing: 5.0,
+                childAspectRatio: 10,
+              ),
+              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                return SingleChildScrollView(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Lights',
+                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                );
+              }, childCount: 1),
+            ),
+            SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 450,
+                mainAxisSpacing: 5.0,
+                crossAxisSpacing: 5.0,
+                childAspectRatio: 6,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, int index) {
                   return Container(
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        lightList(_lights, index),
-                      ],
-                    ),
+                    child: lightList(_lights, index),
                   );
                 },
                 childCount: _lights.length,
@@ -97,49 +123,101 @@ class _LightsViewState extends State<LightsView> {
     }
   }
 
+  // Widget for each scene category in the list
+  Widget lightScenes() {
+    return Container(
+      child: Column(
+        children: [
+          Text(
+            'Scenes',
+            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 8,
+                  decoration: BoxDecoration(color: CupertinoColors.activeOrange, borderRadius: BorderRadius.all(Radius.circular(15))),
+                  margin: EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  child: TextButton(
+                    child: Text(
+                      'Weather',
+                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/weather');
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 8,
+                  decoration: BoxDecoration(color: CupertinoColors.activeOrange, borderRadius: BorderRadius.all(Radius.circular(15))),
+                  margin: EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Moods',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   // Widget for each individual light container in the list
   Widget lightList(_lights, index) {
     LightService _lightService = LightService();
     List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(15.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 13, // TODO: Fix this height to be cleaner
-        color: Color.fromRGBO(rgb[0].round() * 255, rgb[1].round() * 255, rgb[2].round() * 255, _lights[index].lightState.bri.toDouble() / 254),
-        child: Row(
-          children: [
-            Row(
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+            decoration: BoxDecoration(
+                color:
+                    Color.fromRGBO(rgb[0].round() * 255, rgb[1].round() * 255, rgb[2].round() * 255, _lights[index].lightState.bri.toDouble() / 254),
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            child: Row(
               children: [
-                Container(
-                  padding: EdgeInsets.all(15),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _lights[index].lightInfo.name,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(15),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _lights[index].lightInfo.name,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: CupertinoSwitch(
-                    value: _lights[index].lightState.on,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _lights[index].lightState.on = value;
-                        _lightService
-                            .setLights(_lights[index].id, value, _lights[index].lightState.bri)
-                            .then((result) => print(result.body.toString()));
-                        print('Light: ${_lights[index].id} is now set to ${value}');
-                      });
-                    },
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: CupertinoSwitch(
+                      value: _lights[index].lightState.on,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _lights[index].lightState.on = value;
+                          _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
+                        });
+                      },
+                    ),
                   ),
-                ),
+                )
               ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile/Controller/basecommands.dart' as Commands;
-
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Service/locationservice.dart';
-import '/View/home.dart';
+import 'package:mobile/View/weather.dart';
+import 'package:mobile/View/home.dart';
 
 class HueWeatherSync extends StatelessWidget {
   @override
@@ -21,7 +21,11 @@ class HueWeatherSync extends StatelessWidget {
         Commands.init(context);
         return CupertinoApp(
           theme: CupertinoThemeData(brightness: Brightness.dark),
-          home: HomePage(),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => HomePage(),
+            '/weather': (context) => WeatherPage(),
+          },
         );
       }),
     );
