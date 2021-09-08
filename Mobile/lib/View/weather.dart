@@ -80,13 +80,21 @@ class _WeatherPageState extends State<WeatherPage> {
       return CupertinoPageScaffold(
         backgroundColor: Colors.indigo[800],
         navigationBar: CupertinoNavigationBar(
-          backgroundColor: Colors.transparent,
-          border: null,
-          middle: Text(
-            'Weather',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
+            backgroundColor: Colors.transparent,
+            border: null,
+            middle: Text(
+              'Weather',
+              style: TextStyle(fontSize: 25),
+            ),
+            leading: CupertinoButton(
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
         child: Container(
           alignment: Alignment.center,
           child: Column(
