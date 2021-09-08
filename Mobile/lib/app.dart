@@ -20,7 +20,10 @@ class HueWeatherSync extends StatelessWidget {
       child: Builder(builder: (context) {
         Commands.init(context);
         return CupertinoApp(
-          theme: CupertinoThemeData(brightness: Brightness.dark),
+          theme: CupertinoThemeData(
+            brightness: Brightness.dark,
+            primaryColor: Colors.blueGrey[900],
+          ),
           initialRoute: '/',
           routes: {
             '/': (context) => HomePage(),
