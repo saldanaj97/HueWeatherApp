@@ -116,61 +116,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     Radius.circular(25),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        weatherData[1],
-                        style: TextStyle(fontSize: 35, color: Colors.black, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        '${days[date.weekday]} ${months[date.month]} ${date.day}, ${date.year}',
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        temperatureData[0].round().toString() + ' \u2109',
-                        style: TextStyle(fontSize: 55, color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        weatherData[0]["main"],
-                        style: TextStyle(fontSize: 35, color: Colors.black),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 15),
-                          child: Text(
-                            temperatureData[2].round().toString() + ' \u2109',
-                            style: TextStyle(fontSize: 25, color: Colors.black),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 15),
-                          child: Text(' / ', style: TextStyle(fontSize: 25, color: Colors.black)),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 15),
-                          child: Text(
-                            (temperatureData[3].round() - 20).toString() + ' \u2109',
-                            style: TextStyle(fontSize: 25, color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                child: displayInformation(date),
               ),
               CupertinoButton(
                   child: Container(
@@ -201,5 +147,64 @@ class _WeatherPageState extends State<WeatherPage> {
         child: CupertinoActivityIndicator(),
       );
     }
+  }
+
+// This widget will hold all the containers and data that needs to be displayed
+  Widget displayInformation(date) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Text(
+            weatherData[1],
+            style: TextStyle(fontSize: 35, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Text(
+            '${days[date.weekday]} ${months[date.month]} ${date.day}, ${date.year}',
+            style: TextStyle(fontSize: 20, color: Colors.black),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Text(
+            temperatureData[0].round().toString() + ' \u2109',
+            style: TextStyle(fontSize: 55, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Text(
+            weatherData[0]["main"],
+            style: TextStyle(fontSize: 35, color: Colors.black),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 15),
+              child: Text(
+                temperatureData[2].round().toString() + ' \u2109',
+                style: TextStyle(fontSize: 25, color: Colors.black),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 15),
+              child: Text(' / ', style: TextStyle(fontSize: 25, color: Colors.black)),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 15),
+              child: Text(
+                (temperatureData[3].round() - 20).toString() + ' \u2109',
+                style: TextStyle(fontSize: 25, color: Colors.black),
+              ),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }
