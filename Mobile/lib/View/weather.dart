@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
+import 'package:mobile/View/light.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -78,31 +79,56 @@ class _WeatherPageState extends State<WeatherPage> {
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: Color.fromRGBO(44, 45, 64, 1),
         navigationBar: CupertinoNavigationBar(
-            backgroundColor: Colors.transparent,
-            border: null,
-            middle: Text(
-              'Weather',
-              style: TextStyle(fontSize: 25),
-            ),
-            leading: CupertinoButton(
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )),
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(child: displayInformation(date)),
-            ],
+          backgroundColor: Colors.transparent,
+          border: null,
+          middle: Text(
+            'Weather',
+            style: TextStyle(fontSize: 25),
           ),
+        ),
+        child: ListView(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1.15,
+                    margin: EdgeInsets.only(
+                      top: 15,
+                      bottom: 35,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: Color.fromRGBO(44, 45, 64, 1),
+                      shape: BoxShape.rectangle,
+                      boxShadow: [
+                        BoxShadow(color: Color.fromRGBO(35, 36, 51, 1), spreadRadius: 0.0, blurRadius: 15, offset: Offset(3.0, 3.0)),
+                        BoxShadow(color: Color.fromRGBO(26, 27, 38, 1), spreadRadius: 0.0, blurRadius: 15 / 2.0, offset: Offset(3.0, 3.0)),
+                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2, blurRadius: 10, offset: Offset(-3.0, -3.0)),
+                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2, blurRadius: 10 / 2, offset: Offset(-3.0, -3.0)),
+                      ],
+                    ),
+                    child: displayInformation(date),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 30, bottom: 15),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Lights',
+                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Container(
+                    child: LightsView(),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       );
     } else {
@@ -183,6 +209,7 @@ class _WeatherPageState extends State<WeatherPage> {
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
+          margin: EdgeInsets.only(bottom: 20),
           child: Text(
             'Feels like ' + temperatureData[1].round().toString() + ' \u2109',
             style: TextStyle(

@@ -24,10 +24,10 @@ class HueWeatherSync extends StatelessWidget {
             brightness: Brightness.dark,
             primaryColor: Colors.blueGrey[900],
           ),
-          initialRoute: '/',
+          initialRoute: '/weather',
           routes: {
             '/': (context) => HomePage(),
-            '/weather': (context) => const WeatherPage(),
+            '/weather': (context) => WeatherPage(),
           },
         );
       }),
