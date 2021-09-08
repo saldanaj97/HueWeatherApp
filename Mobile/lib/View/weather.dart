@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 import 'dart:convert';
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
-import 'package:mobile/Model/weatherdata.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -18,6 +16,8 @@ class _WeatherPageState extends State<WeatherPage> {
   List temperatureData = [];
   LocationCommands _locationCommands = LocationCommands();
   WeatherService weatherService = WeatherService();
+  List days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  List months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
   @override
   void initState() {
@@ -25,12 +25,16 @@ class _WeatherPageState extends State<WeatherPage> {
     this.getWeatherDataFromAPI(context);
   }
 
+  // Used to convert kelvin to farenheit
   double toFarenheit(double kelvinTemp) {
     double farenheit = (kelvinTemp - 273.15) * (9 / 5) + 32;
     return farenheit;
   }
 
   // Used to get the weather conditions from the backend
+  /* NOTE: API keeps returning values that are approx. 20 degrees F higher than
+  the actual city temperature. To combat this temporarily a 20 degree reduction will
+  be displayed to the user until a solution is found. */
   getWeatherDataFromAPI(context) async {
     LocationCoordinates coordinates;
     Map<String, dynamic> responseMap;
@@ -55,7 +59,10 @@ class _WeatherPageState extends State<WeatherPage> {
                           toFarenheit(responseMap["main"]["temp_min"]),
                           toFarenheit(responseMap["main"]["temp_max"]),
                         ]),
-                        setState(() {})
+                        setState(() {
+                          weatherData = weatherData;
+                          temperatureData = temperatureData;
+                        })
                       },
                     )
                     .catchError((e) => {print('Error: ' + e)}),
@@ -66,11 +73,12 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
-      print(weatherData);
-      print(temperatureData);
       return CupertinoPageScaffold(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.indigo[800],
         navigationBar: CupertinoNavigationBar(
           backgroundColor: Colors.transparent,
           border: null,
@@ -85,10 +93,17 @@ class _WeatherPageState extends State<WeatherPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height / 1.75,
+                height: MediaQuery.of(context).size.height / 2.75,
                 width: MediaQuery.of(context).size.width / 1.15,
                 decoration: BoxDecoration(
                   color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 25,
+                      color: Colors.black,
+                      offset: Offset(0, 0),
+                    )
+                  ],
                   borderRadius: BorderRadius.all(
                     Radius.circular(25),
                   ),
@@ -99,7 +114,14 @@ class _WeatherPageState extends State<WeatherPage> {
                       padding: EdgeInsets.only(top: 15),
                       child: Text(
                         weatherData[1],
-                        style: TextStyle(fontSize: 35, color: Colors.black),
+                        style: TextStyle(fontSize: 35, color: Colors.black, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 15),
+                      child: Text(
+                        '${days[date.weekday]} ${months[date.month]} ${date.day}, ${date.year}',
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                       ),
                     ),
                     Container(
@@ -116,20 +138,29 @@ class _WeatherPageState extends State<WeatherPage> {
                         style: TextStyle(fontSize: 35, color: Colors.black),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        temperatureData[2].round().toString(),
-                        style: TextStyle(fontSize: 35, color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        temperatureData[3].round().toString(),
-                        style: TextStyle(fontSize: 35, color: Colors.black),
-                      ),
-                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text(
+                            temperatureData[2].round().toString() + ' \u2109',
+                            style: TextStyle(fontSize: 25, color: Colors.black),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text(' / ', style: TextStyle(fontSize: 25, color: Colors.black)),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text(
+                            (temperatureData[3].round() - 20).toString() + ' \u2109',
+                            style: TextStyle(fontSize: 25, color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

@@ -18,28 +18,11 @@ class LocationService {
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.granted) {
       print('Location Permissions Granted');
-    } else if (_permissionGranted != PermissionStatus.granted) {
-      _permissionGranted = await location.requestPermission();
+      _locationData = await location.getLocation();
+      return _locationData;
     } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-          title: Text('Location Permission'),
-          content: Text('This app needs location access to set the lights according to the weather. '),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('Deny'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            CupertinoDialogAction(
-              child: Text('Settings'),
-              onPressed: () => AppSettings.openAppSettings(),
-            ),
-          ],
-        ),
-      );
+      _permissionGranted = await location.requestPermission();
+      return Future<LocationData>.value(null);
     }
-    _locationData = await location.getLocation();
-    return _locationData;
   }
 }

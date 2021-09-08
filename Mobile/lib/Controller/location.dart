@@ -12,15 +12,18 @@ class LocationCommands extends BaseCommands {
 
     // If the coordinates are not empty, we update the location coordinates and run the weather service
     if (_locationData.longitude.toString() != '') {
+      // Return true because the coordinates were retrieved successfully
       longitude = _locationData.longitude.toString();
       latitude = _locationData.latitude.toString();
-
-      // Return true because the coordinates were retrieved successfully
       print('Location successfully retrieved. ');
       return Future<bool>.value(true);
+    } else if (_locationData.longitude == null) {
+      // Return falase because the coordinates were not retrieved
+      print('Location retrieval failed. ');
+      return Future<bool>.value(false);
+    } else {
+      return Future<bool>.value(false);
     }
-    print('Location retrieval failed. ');
-    return Future<bool>.value(false);
   }
 
   LocationCoordinates getCoordinates() {
