@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
+import 'package:mobile/View/light.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -78,67 +79,61 @@ class _WeatherPageState extends State<WeatherPage> {
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
-        backgroundColor: Colors.indigo[800],
+        backgroundColor: Color.fromRGBO(44, 45, 64, 1),
         navigationBar: CupertinoNavigationBar(
-            backgroundColor: Colors.transparent,
-            border: null,
-            middle: Text(
-              'Weather',
-              style: TextStyle(fontSize: 25),
-            ),
-            leading: CupertinoButton(
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )),
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 2.75,
-                width: MediaQuery.of(context).size.width / 1.15,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 25,
-                      color: Colors.black,
-                      offset: Offset(0, 0),
-                    )
-                  ],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                ),
-                child: displayInformation(date),
-              ),
-              CupertinoButton(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 20,
-                    width: MediaQuery.of(context).size.width / 4,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Sync',
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {}),
-            ],
+          backgroundColor: Colors.transparent,
+          border: null,
+          middle: Text(
+            'Weather',
+            style: TextStyle(fontSize: 25),
           ),
+        ),
+        child: ListView(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1.15,
+                    margin: EdgeInsets.only(
+                      top: 15,
+                      bottom: 35,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: Color.fromRGBO(44, 45, 64, 1),
+                      shape: BoxShape.rectangle,
+                      gradient: RadialGradient(center: Alignment(0.5, 0.6), radius: .7, colors: [
+                        Color.fromRGBO(26, 27, 38, 1).withOpacity(.3),
+                        Color.fromRGBO(30, 33, 46, 1).withOpacity(.35),
+                        Color.fromRGBO(35, 35, 50, 1).withOpacity(0.05),
+                      ]),
+                      boxShadow: [
+                        BoxShadow(color: Color.fromRGBO(35, 36, 51, 1), spreadRadius: 0.0, blurRadius: 10, offset: Offset(3.0, 3.0)),
+                        BoxShadow(color: Color.fromRGBO(26, 27, 38, 1), spreadRadius: 0.0, blurRadius: 10 / 2.0, offset: Offset(3.0, 3.0)),
+                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5, offset: Offset(-3.0, -3.0)),
+                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5 / 2, offset: Offset(-3.0, -3.0)),
+                      ],
+                    ),
+                    child: displayInformation(date),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 30, bottom: 15),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Lights',
+                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Container(
+                    child: LightsView(),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       );
     } else {
@@ -157,28 +152,31 @@ class _WeatherPageState extends State<WeatherPage> {
           padding: EdgeInsets.only(top: 15),
           child: Text(
             weatherData[1],
-            style: TextStyle(fontSize: 35, color: Colors.black, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 45, color: Colors.white, fontWeight: FontWeight.w400),
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 15),
-          child: Text(
-            '${days[date.weekday]} ${months[date.month]} ${date.day}, ${date.year}',
-            style: TextStyle(fontSize: 20, color: Colors.black),
+          child: Icon(
+            CupertinoIcons.cloud_sun,
+            size: 125,
+            color: Colors.white,
           ),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
             temperatureData[0].round().toString() + ' \u2109',
-            style: TextStyle(fontSize: 55, color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 55, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
             weatherData[0]["main"],
-            style: TextStyle(fontSize: 35, color: Colors.black),
+            style: TextStyle(
+              fontSize: 35,
+              color: Colors.white,
+            ),
           ),
         ),
         Row(
@@ -188,22 +186,43 @@ class _WeatherPageState extends State<WeatherPage> {
               padding: EdgeInsets.only(top: 15),
               child: Text(
                 temperatureData[2].round().toString() + ' \u2109',
-                style: TextStyle(fontSize: 25, color: Colors.black),
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
               ),
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text(' / ', style: TextStyle(fontSize: 25, color: Colors.black)),
+              child: Text(' / ',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  )),
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
               child: Text(
                 (temperatureData[3].round() - 20).toString() + ' \u2109',
-                style: TextStyle(fontSize: 25, color: Colors.black),
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
-        )
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 15),
+          margin: EdgeInsets.only(bottom: 20),
+          child: Text(
+            'Feels like ' + temperatureData[1].round().toString() + ' \u2109',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ],
     );
   }
