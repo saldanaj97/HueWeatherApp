@@ -78,7 +78,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
-        backgroundColor: Colors.indigo[800],
+        backgroundColor: Colors.blueGrey[900],
         navigationBar: CupertinoNavigationBar(
             backgroundColor: Colors.transparent,
             border: null,
@@ -100,43 +100,7 @@ class _WeatherPageState extends State<WeatherPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 2.75,
-                width: MediaQuery.of(context).size.width / 1.15,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 25,
-                      color: Colors.black,
-                      offset: Offset(0, 0),
-                    )
-                  ],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                ),
-                child: displayInformation(date),
-              ),
-              CupertinoButton(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 20,
-                    width: MediaQuery.of(context).size.width / 4,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Sync',
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {}),
+              Container(child: displayInformation(date)),
             ],
           ),
         ),
@@ -157,28 +121,31 @@ class _WeatherPageState extends State<WeatherPage> {
           padding: EdgeInsets.only(top: 15),
           child: Text(
             weatherData[1],
-            style: TextStyle(fontSize: 35, color: Colors.black, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 45, color: Colors.white, fontWeight: FontWeight.w400),
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 15),
-          child: Text(
-            '${days[date.weekday]} ${months[date.month]} ${date.day}, ${date.year}',
-            style: TextStyle(fontSize: 20, color: Colors.black),
+          child: Icon(
+            CupertinoIcons.cloud_sun,
+            size: 125,
+            color: Colors.white,
           ),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
             temperatureData[0].round().toString() + ' \u2109',
-            style: TextStyle(fontSize: 55, color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 55, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
             weatherData[0]["main"],
-            style: TextStyle(fontSize: 35, color: Colors.black),
+            style: TextStyle(
+              fontSize: 35,
+              color: Colors.white,
+            ),
           ),
         ),
         Row(
@@ -188,22 +155,42 @@ class _WeatherPageState extends State<WeatherPage> {
               padding: EdgeInsets.only(top: 15),
               child: Text(
                 temperatureData[2].round().toString() + ' \u2109',
-                style: TextStyle(fontSize: 25, color: Colors.black),
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
               ),
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text(' / ', style: TextStyle(fontSize: 25, color: Colors.black)),
+              child: Text(' / ',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  )),
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
               child: Text(
                 (temperatureData[3].round() - 20).toString() + ' \u2109',
-                style: TextStyle(fontSize: 25, color: Colors.black),
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
-        )
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 15),
+          child: Text(
+            'Feels like ' + temperatureData[1].round().toString() + ' \u2109',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ],
     );
   }
