@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/Service/lightservice.dart';
-import 'package:mobile/View/weather.dart';
+import 'package:mobile/View/decorations/decorations.dart';
 
 class LightsView extends StatefulWidget {
   const LightsView({Key? key}) : super(key: key);
@@ -128,21 +128,7 @@ class _LightsViewState extends State<LightsView> {
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           width: MediaQuery.of(context).size.width / 1.15,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(44, 45, 64, 1),
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(6.0),
-            gradient: LinearGradient(begin: Alignment(1, 3), end: Alignment(.3, 0), colors: [
-              Color.fromRGBO(26, 27, 38, 1).withOpacity(.3),
-              Color.fromRGBO(35, 35, 50, 1).withOpacity(0.2),
-            ]),
-            boxShadow: [
-              BoxShadow(color: Color.fromRGBO(35, 36, 51, 1), spreadRadius: 0.0, blurRadius: 10, offset: Offset(3.0, 3.0)),
-              BoxShadow(color: Color.fromRGBO(26, 27, 38, 1), spreadRadius: 0.0, blurRadius: 10 / 2.0, offset: Offset(3.0, 3.0)),
-              BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5, offset: Offset(-3.0, -3.0)),
-              BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5 / 2, offset: Offset(-3.0, -3.0)),
-            ],
-          ),
+          decoration: neumorphic_rectangle_box_decorations,
           child: Row(
             children: [
               Expanded(
