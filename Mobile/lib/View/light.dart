@@ -50,7 +50,7 @@ class _LightsViewState extends State<LightsView> {
                       )),
                 ),
                 setState(() {
-                  _lights = lights;
+                  Light.listOfLights = lights;
                 }),
               }),
         });
@@ -58,8 +58,9 @@ class _LightsViewState extends State<LightsView> {
 
   @override
   Widget build(BuildContext context) {
+    List _lights = Light.listOfLights;
     // Data is ready
-    if (_lights.length > 0) {
+    if (_lights.isNotEmpty) {
       return Container(
         child: Column(
           children: [
@@ -122,14 +123,13 @@ class _LightsViewState extends State<LightsView> {
 // Widget for each individual light container in the list
   Widget lightList(_lights, index) {
     LightService _lightService = LightService();
-    List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
+    //List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
     return Column(
       children: [
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           width: MediaQuery.of(context).size.width / 1.15,
-          decoration: neumorphic_rectangle_box_decorations,
           child: Neumorphic(
             style: neumorphicBox,
             child: Row(
