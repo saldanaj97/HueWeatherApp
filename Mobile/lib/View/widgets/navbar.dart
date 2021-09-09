@@ -15,7 +15,7 @@ class _NavbarState extends State<Navbar> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.bottomCenter,
-      margin: EdgeInsets.only(left: 30, right: 30),
+      margin: EdgeInsets.only(top: 15, left: 30, right: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
