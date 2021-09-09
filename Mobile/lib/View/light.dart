@@ -60,16 +60,29 @@ class _LightsViewState extends State<LightsView> {
     // Data is ready
     if (_lights.length > 0) {
       return Container(
-        child: SizedBox(
-          height: 500,
-          child: new ListView.builder(
-            itemCount: _lights.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: lightList(_lights, index),
-              );
-            },
-          ),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 30, bottom: 10),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Lights',
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+              ),
+            ),
+            SizedBox(
+              height: 200,
+              child: new ListView.builder(
+                itemCount: _lights.length,
+                padding: EdgeInsets.all(0),
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: lightList(_lights, index),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       );
     } else {
