@@ -6,6 +6,8 @@ import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
 import 'package:mobile/View/light.dart';
+import 'package:mobile/View/widgets/navbar.dart';
+import 'package:mobile/View/decorations/decorations.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -100,22 +102,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     width: MediaQuery.of(context).size.width / 1.15,
                     margin: EdgeInsets.only(bottom: 35),
                     padding: EdgeInsets.only(top: 100),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                      color: Color.fromRGBO(44, 45, 64, 1),
-                      shape: BoxShape.rectangle,
-                      gradient: RadialGradient(center: Alignment(0.5, 0.6), radius: .7, colors: [
-                        Color.fromRGBO(26, 27, 38, 1).withOpacity(.3),
-                        Color.fromRGBO(30, 33, 46, 1).withOpacity(.35),
-                        Color.fromRGBO(35, 35, 50, 1).withOpacity(0.05),
-                      ]),
-                      boxShadow: [
-                        BoxShadow(color: Color.fromRGBO(35, 36, 51, 1), spreadRadius: 0.0, blurRadius: 10, offset: Offset(3.0, 3.0)),
-                        BoxShadow(color: Color.fromRGBO(26, 27, 38, 1), spreadRadius: 0.0, blurRadius: 10 / 2.0, offset: Offset(3.0, 3.0)),
-                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5, offset: Offset(-3.0, -3.0)),
-                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5 / 2, offset: Offset(-3.0, -3.0)),
-                      ],
-                    ),
+                    decoration: neumorphic_card_decorations,
                     child: displayInformation(date),
                   ),
                   Container(child: LightsView()),
@@ -123,20 +110,24 @@ class _WeatherPageState extends State<WeatherPage> {
               ),
             ),
             Container(
-                alignment: Alignment.bottomCenter,
-                child: Neumorphic(
-                  child: Container(
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                  ),
-                  style: NeumorphicStyle(
-                    color: Color.fromRGBO(44, 45, 64, 1),
-                    shadowDarkColor: Color.fromRGBO(26, 27, 38, 1),
-                    shadowLightColor: Color.fromRGBO(50, 50, 70, 1),
-                    intensity: 1,
-                    surfaceIntensity: 1,
-                    depth: 4,
-                  ),
-                )),
+              alignment: Alignment.bottomCenter,
+              child: Neumorphic(
+                child: Container(
+                  decoration: BoxDecoration(shape: BoxShape.circle),
+                ),
+                style: NeumorphicStyle(
+                  color: Color.fromRGBO(44, 45, 64, 1),
+                  shadowDarkColor: Color.fromRGBO(26, 27, 38, 1),
+                  shadowLightColor: Color.fromRGBO(50, 50, 70, 1),
+                  intensity: 1,
+                  surfaceIntensity: 1,
+                  depth: 4,
+                ),
+              ),
+            ),
+            Container(
+              child: Navbar(),
+            )
           ],
         ),
       );
