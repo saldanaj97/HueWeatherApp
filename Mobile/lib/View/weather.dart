@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
@@ -88,7 +89,7 @@ class _WeatherPageState extends State<WeatherPage> {
             style: TextStyle(fontSize: 25),
           ),
         ),
-        child: ListView(
+        child: Column(
           children: [
             Container(
               alignment: Alignment.center,
@@ -97,10 +98,8 @@ class _WeatherPageState extends State<WeatherPage> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width / 1.15,
-                    margin: EdgeInsets.only(
-                      top: 15,
-                      bottom: 35,
-                    ),
+                    margin: EdgeInsets.only(bottom: 35),
+                    padding: EdgeInsets.only(top: 100),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
                       color: Color.fromRGBO(44, 45, 64, 1),
@@ -119,20 +118,25 @@ class _WeatherPageState extends State<WeatherPage> {
                     ),
                     child: displayInformation(date),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, bottom: 15),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Lights',
-                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  Container(
-                    child: LightsView(),
-                  ),
+                  Container(child: LightsView()),
                 ],
               ),
             ),
+            Container(
+                alignment: Alignment.bottomCenter,
+                child: Neumorphic(
+                  child: Container(
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                  ),
+                  style: NeumorphicStyle(
+                    color: Color.fromRGBO(44, 45, 64, 1),
+                    shadowDarkColor: Color.fromRGBO(26, 27, 38, 1),
+                    shadowLightColor: Color.fromRGBO(50, 50, 70, 1),
+                    intensity: 1,
+                    surfaceIntensity: 1,
+                    depth: 4,
+                  ),
+                )),
           ],
         ),
       );
