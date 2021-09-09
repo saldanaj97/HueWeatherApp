@@ -102,8 +102,10 @@ class _WeatherPageState extends State<WeatherPage> {
                     width: MediaQuery.of(context).size.width / 1.15,
                     margin: EdgeInsets.only(bottom: 35),
                     padding: EdgeInsets.only(top: 100),
-                    decoration: neumorphic_card_decorations,
-                    child: displayInformation(date),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    child: Neumorphic(child: displayInformation(date), style: neumorphicBox),
                   ),
                   Container(child: LightsView()),
                 ],
@@ -112,9 +114,7 @@ class _WeatherPageState extends State<WeatherPage> {
             Container(
               alignment: Alignment.bottomCenter,
               child: Neumorphic(
-                child: Container(
-                  decoration: BoxDecoration(shape: BoxShape.circle),
-                ),
+                child: Container(decoration: BoxDecoration(shape: BoxShape.circle)),
                 style: NeumorphicStyle(
                   color: Color.fromRGBO(44, 45, 64, 1),
                   shadowDarkColor: Color.fromRGBO(26, 27, 38, 1),
@@ -125,9 +125,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 ),
               ),
             ),
-            Container(
-              child: Navbar(),
-            )
+            Container(child: Navbar())
           ],
         ),
       );
