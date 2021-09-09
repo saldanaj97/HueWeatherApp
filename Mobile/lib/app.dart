@@ -6,6 +6,7 @@ import 'package:mobile/Controller/basecommands.dart' as Commands;
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Service/locationservice.dart';
 import 'package:mobile/View/weather.dart';
+import 'package:mobile/View/decorations/decorations.dart';
 
 class HueWeatherSync extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class HueWeatherSync extends StatelessWidget {
         return CupertinoApp(
           theme: CupertinoThemeData(
             brightness: Brightness.dark,
-            primaryColor: Color.fromRGBO(44, 45, 64, 1),
+            primaryColor: primaryColor,
           ),
           initialRoute: '/',
           routes: {

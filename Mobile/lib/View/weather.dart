@@ -82,7 +82,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
-        backgroundColor: Color.fromRGBO(44, 45, 64, 1),
+        backgroundColor: primaryColor,
         navigationBar: CupertinoNavigationBar(
           backgroundColor: Colors.transparent,
           border: null,
