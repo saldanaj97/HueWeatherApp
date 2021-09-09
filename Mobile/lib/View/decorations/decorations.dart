@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 // Neumorphic shadows for any sqaure cards
 BoxDecoration neumorphic_card_decorations = BoxDecoration(
@@ -35,6 +36,19 @@ BoxDecoration neumorphic_rectangle_box_decorations = BoxDecoration(
   ],
 );
 
+// Neumorphic button styling
+NeumorphicStyle neumorphicButton = NeumorphicStyle(
+  shape: NeumorphicShape.convex,
+  boxShape: NeumorphicBoxShape.circle(),
+  color: primaryColor,
+  shadowDarkColor: shadowDarkColor_1,
+  shadowLightColor: shadowLightColor_1,
+  intensity: .75,
+  surfaceIntensity: .2,
+);
+
 // Color palette for the application
 Color primaryColor = Color.fromRGBO(44, 45, 64, 1);
 Color cardColor = Color.fromRGBO(44, 45, 64, 1);
+Color shadowDarkColor_1 = Color.fromRGBO(26, 27, 38, 1);
+Color shadowLightColor_1 = Color.fromRGBO(50, 50, 70, 1);
