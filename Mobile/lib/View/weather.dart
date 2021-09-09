@@ -111,20 +111,6 @@ class _WeatherPageState extends State<WeatherPage> {
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: Neumorphic(
-                child: Container(decoration: BoxDecoration(shape: BoxShape.circle)),
-                style: NeumorphicStyle(
-                  color: Color.fromRGBO(44, 45, 64, 1),
-                  shadowDarkColor: Color.fromRGBO(26, 27, 38, 1),
-                  shadowLightColor: Color.fromRGBO(50, 50, 70, 1),
-                  intensity: 1,
-                  surfaceIntensity: 1,
-                  depth: 4,
-                ),
-              ),
-            ),
             Container(child: Navbar())
           ],
         ),

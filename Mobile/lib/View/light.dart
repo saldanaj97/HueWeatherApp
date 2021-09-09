@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:convert';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/Service/lightservice.dart';
@@ -129,35 +130,38 @@ class _LightsViewState extends State<LightsView> {
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           width: MediaQuery.of(context).size.width / 1.15,
           decoration: neumorphic_rectangle_box_decorations,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(15),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _lights[index].lightInfo.name,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 20),
+          child: Neumorphic(
+            style: neumorphicBox,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(15),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _lights[index].lightInfo.name,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: CupertinoSwitch(
-                    value: _lights[index].lightState.on,
-                    activeColor: Color.fromRGBO(30, 30, 50, 1),
-                    onChanged: (bool value) {
-                      setState(() {
-                        _lights[index].lightState.on = value;
-                        _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
-                      });
-                    },
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: CupertinoSwitch(
+                      value: _lights[index].lightState.on,
+                      activeColor: Color.fromRGBO(30, 30, 50, 1),
+                      onChanged: (bool value) {
+                        setState(() {
+                          _lights[index].lightState.on = value;
+                          _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
+                        });
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         )
       ],
