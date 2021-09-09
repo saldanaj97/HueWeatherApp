@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:convert';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/Service/lightservice.dart';
-import 'package:mobile/View/weather.dart';
+import 'package:mobile/View/decorations/decorations.dart';
 
 class LightsView extends StatefulWidget {
   const LightsView({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class _LightsViewState extends State<LightsView> {
                       )),
                 ),
                 setState(() {
-                  _lights = lights;
+                  Light.listOfLights = lights;
                 }),
               }),
         });
@@ -57,19 +58,33 @@ class _LightsViewState extends State<LightsView> {
 
   @override
   Widget build(BuildContext context) {
+    List _lights = Light.listOfLights;
     // Data is ready
-    if (_lights.length > 0) {
+    if (_lights.isNotEmpty) {
       return Container(
-        child: SizedBox(
-          height: 500,
-          child: new ListView.builder(
-            itemCount: _lights.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: lightList(_lights, index),
-              );
-            },
-          ),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 30, bottom: 10),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Lights',
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+              ),
+            ),
+            SizedBox(
+              height: 200,
+              child: new ListView.builder(
+                itemCount: _lights.length,
+                padding: EdgeInsets.all(0),
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: lightList(_lights, index),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       );
     } else {
@@ -108,57 +123,45 @@ class _LightsViewState extends State<LightsView> {
 // Widget for each individual light container in the list
   Widget lightList(_lights, index) {
     LightService _lightService = LightService();
-    List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
+    //List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
     return Column(
       children: [
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           width: MediaQuery.of(context).size.width / 1.15,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(44, 45, 64, 1),
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(6.0),
-            gradient: LinearGradient(begin: Alignment(1, 3), end: Alignment(.3, 0), colors: [
-              Color.fromRGBO(26, 27, 38, 1).withOpacity(.3),
-              Color.fromRGBO(35, 35, 50, 1).withOpacity(0.2),
-            ]),
-            boxShadow: [
-              BoxShadow(color: Color.fromRGBO(35, 36, 51, 1), spreadRadius: 0.0, blurRadius: 10, offset: Offset(3.0, 3.0)),
-              BoxShadow(color: Color.fromRGBO(26, 27, 38, 1), spreadRadius: 0.0, blurRadius: 10 / 2.0, offset: Offset(3.0, 3.0)),
-              BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5, offset: Offset(-3.0, -3.0)),
-              BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5 / 2, offset: Offset(-3.0, -3.0)),
-            ],
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(15),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _lights[index].lightInfo.name,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 20),
+          child: Neumorphic(
+            style: neumorphicBox,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(15),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _lights[index].lightInfo.name,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: CupertinoSwitch(
-                    value: _lights[index].lightState.on,
-                    activeColor: Color.fromRGBO(30, 30, 50, 1),
-                    onChanged: (bool value) {
-                      setState(() {
-                        _lights[index].lightState.on = value;
-                        _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
-                      });
-                    },
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: CupertinoSwitch(
+                      value: _lights[index].lightState.on,
+                      activeColor: Color.fromRGBO(30, 30, 50, 1),
+                      onChanged: (bool value) {
+                        setState(() {
+                          _lights[index].lightState.on = value;
+                          _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
+                        });
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         )
       ],

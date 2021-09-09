@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
 import 'package:mobile/View/light.dart';
+import 'package:mobile/View/widgets/navbar.dart';
+import 'package:mobile/View/decorations/decorations.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -79,7 +82,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
-        backgroundColor: Color.fromRGBO(44, 45, 64, 1),
+        backgroundColor: primaryColor,
         navigationBar: CupertinoNavigationBar(
           backgroundColor: Colors.transparent,
           border: null,
@@ -88,7 +91,7 @@ class _WeatherPageState extends State<WeatherPage> {
             style: TextStyle(fontSize: 25),
           ),
         ),
-        child: ListView(
+        child: Column(
           children: [
             Container(
               alignment: Alignment.center,
@@ -97,42 +100,18 @@ class _WeatherPageState extends State<WeatherPage> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width / 1.15,
-                    margin: EdgeInsets.only(
-                      top: 15,
-                      bottom: 35,
-                    ),
+                    margin: EdgeInsets.only(bottom: 35),
+                    padding: EdgeInsets.only(top: 100),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
-                      color: Color.fromRGBO(44, 45, 64, 1),
-                      shape: BoxShape.rectangle,
-                      gradient: RadialGradient(center: Alignment(0.5, 0.6), radius: .7, colors: [
-                        Color.fromRGBO(26, 27, 38, 1).withOpacity(.3),
-                        Color.fromRGBO(30, 33, 46, 1).withOpacity(.35),
-                        Color.fromRGBO(35, 35, 50, 1).withOpacity(0.05),
-                      ]),
-                      boxShadow: [
-                        BoxShadow(color: Color.fromRGBO(35, 36, 51, 1), spreadRadius: 0.0, blurRadius: 10, offset: Offset(3.0, 3.0)),
-                        BoxShadow(color: Color.fromRGBO(26, 27, 38, 1), spreadRadius: 0.0, blurRadius: 10 / 2.0, offset: Offset(3.0, 3.0)),
-                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5, offset: Offset(-3.0, -3.0)),
-                        BoxShadow(color: Color.fromRGBO(50, 50, 70, 1), spreadRadius: 2.0, blurRadius: 5 / 2, offset: Offset(-3.0, -3.0)),
-                      ],
                     ),
-                    child: displayInformation(date),
+                    child: Neumorphic(child: displayInformation(date), style: neumorphicBox),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, bottom: 15),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Lights',
-                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  Container(
-                    child: LightsView(),
-                  ),
+                  Container(child: LightsView()),
                 ],
               ),
             ),
+            Container(child: Navbar())
           ],
         ),
       );

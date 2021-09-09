@@ -4,6 +4,7 @@ class Light {
   LightState lightState;
 
   Light(this.id, this.lightInfo, this.lightState);
+  static List listOfLights = [];
 }
 
 class LightInfo {
