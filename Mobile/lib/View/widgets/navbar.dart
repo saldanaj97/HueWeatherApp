@@ -3,6 +3,9 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:mobile/View/decorations/decorations.dart';
 import 'package:mobile/Service/lightservice.dart';
 import 'package:mobile/Model/light.dart';
+import 'package:mobile/View/moods.dart';
+import 'package:mobile/View/settings.dart';
+import 'package:mobile/View/weather.dart';
 
 class Navbar extends StatefulWidget {
   final List tabActive;
@@ -28,7 +31,7 @@ class _NavbarState extends State<Navbar> {
 
     return Container(
       alignment: Alignment.bottomCenter,
-      margin: EdgeInsets.only(top: 15, left: 30, right: 30),
+      margin: EdgeInsets.only(top: 5, left: 30, right: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -44,7 +47,7 @@ class _NavbarState extends State<Navbar> {
               onPressed: () {
                 // If we are NOT on this tab already, route to the page
                 if (!widget.tabActive[0][1]) {
-                  Navigator.pushNamed(context, '/');
+                  Navigator.push(context, FadeRoute(WeatherPage()));
                 }
                 setState(() {});
               },
@@ -60,7 +63,7 @@ class _NavbarState extends State<Navbar> {
               ),
               onPressed: () {
                 if (!widget.tabActive[1][1]) {
-                  Navigator.pushNamed(context, '/moods');
+                  Navigator.push(context, FadeRoute(MoodsView()));
                 }
                 setState(() {});
               },
@@ -76,7 +79,7 @@ class _NavbarState extends State<Navbar> {
               ),
               onPressed: () {
                 if (!widget.tabActive[2][1]) {
-                  Navigator.pushNamed(context, '/settings');
+                  Navigator.push(context, FadeRoute(SettingsView()));
                 }
                 setState(() {});
               },
@@ -114,4 +117,28 @@ class _NavbarState extends State<Navbar> {
       ),
     );
   }
+}
+
+// This will be used to animate the page transitions
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  FadeRoute(this.page)
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
 }

@@ -69,11 +69,11 @@ class _LightsViewState extends State<LightsView> {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Lights',
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+                style: title,
               ),
             ),
             SizedBox(
-              height: 200,
+              height: 175,
               child: new ListView.builder(
                 itemCount: _lights.length,
                 padding: EdgeInsets.all(0),

@@ -88,16 +88,16 @@ class _WeatherPageState extends State<WeatherPage> {
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
         backgroundColor: primaryColor,
-        navigationBar: CupertinoNavigationBar(
-          backgroundColor: Colors.transparent,
-          border: null,
-          middle: Text(
-            'Weather',
-            style: TextStyle(fontSize: 25),
-          ),
-        ),
         child: Column(
           children: [
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.only(left: 30, top: 60, bottom: 10),
+              child: Text(
+                'Weather',
+                style: title,
+              ),
+            ),
             Container(
               alignment: Alignment.center,
               child: Column(
@@ -105,8 +105,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width / 1.15,
-                    margin: EdgeInsets.only(bottom: 35),
-                    padding: EdgeInsets.only(top: 100),
+                    margin: EdgeInsets.only(top: 10, bottom: 35),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
                     ),
