@@ -40,6 +40,7 @@ class _NavbarState extends State<Navbar> {
                 color: Colors.white,
               ),
               onPressed: () {
+                Navigator.pushNamed(context, '/');
                 setState(() {});
               },
             ),
