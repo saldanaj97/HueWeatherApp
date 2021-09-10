@@ -5,7 +5,8 @@ import 'package:mobile/Service/lightservice.dart';
 import 'package:mobile/Model/light.dart';
 
 class Navbar extends StatefulWidget {
-  const Navbar({Key? key}) : super(key: key);
+  final List tabActive;
+  Navbar(this.tabActive);
 
   @override
   _NavbarState createState() => _NavbarState();
@@ -14,10 +15,10 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   Color lightBulbOnColor = Colors.yellow;
   int pageActive = 0;
+
   @override
   void initState() {
     super.initState();
-    pageActive = 1;
   }
 
   @override
@@ -33,42 +34,50 @@ class _NavbarState extends State<Navbar> {
         children: [
           Container(
             child: NeumorphicButton(
-              style: neumorphicButton,
+              style: widget.tabActive[0][1] ? neumorphicButtonPressed : neumorphicButton,
+              //pressed: true,
               child: Icon(
                 CupertinoIcons.cloud,
                 size: 35,
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+                // If we are NOT on this tab already, route to the page
+                if (!widget.tabActive[0][1]) {
+                  Navigator.pushNamed(context, '/');
+                }
                 setState(() {});
               },
             ),
           ),
           Container(
             child: NeumorphicButton(
-              style: neumorphicButton,
+              style: widget.tabActive[1][1] ? neumorphicButtonPressed : neumorphicButton,
               child: Icon(
                 CupertinoIcons.smiley,
                 size: 35,
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/moods');
+                if (!widget.tabActive[1][1]) {
+                  Navigator.pushNamed(context, '/moods');
+                }
                 setState(() {});
               },
             ),
           ),
           Container(
             child: NeumorphicButton(
-              style: neumorphicButton,
+              style: widget.tabActive[2][1] ? neumorphicButtonPressed : neumorphicButton,
               child: Icon(
                 CupertinoIcons.settings,
                 size: 35,
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/settings');
+                if (!widget.tabActive[2][1]) {
+                  Navigator.pushNamed(context, '/settings');
+                }
                 setState(() {});
               },
             ),

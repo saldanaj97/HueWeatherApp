@@ -6,6 +6,12 @@ import 'package:mobile/View/decorations/decorations.dart';
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List tabActive = [
+      [1, false],
+      [2, false],
+      [3, true]
+    ];
+
     return CupertinoPageScaffold(
       backgroundColor: primaryColor,
       navigationBar: CupertinoNavigationBar(
@@ -17,7 +23,7 @@ class SettingsView extends StatelessWidget {
         ),
       ),
       child: Container(
-        child: Navbar(),
+        child: Navbar(tabActive),
       ),
     );
   }

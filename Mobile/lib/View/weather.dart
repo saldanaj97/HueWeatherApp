@@ -79,6 +79,11 @@ class _WeatherPageState extends State<WeatherPage> {
   Widget build(BuildContext context) {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
+    List tabActive = [
+      [1, true],
+      [2, false],
+      [3, false]
+    ];
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
@@ -111,7 +116,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 ],
               ),
             ),
-            Container(child: Navbar())
+            Container(child: Navbar(tabActive))
           ],
         ),
       );

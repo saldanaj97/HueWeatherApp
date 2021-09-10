@@ -28,6 +28,20 @@ NeumorphicStyle neumorphicButton = NeumorphicStyle(
   depth: 5,
 );
 
+// Neumorphic button styling
+NeumorphicStyle neumorphicButtonPressed = NeumorphicStyle(
+  shape: NeumorphicShape.concave,
+  boxShape: NeumorphicBoxShape.circle(),
+  color: primaryColor,
+  shadowDarkColor: shadowDarkColor_1,
+  shadowDarkColorEmboss: shadowDarkColor_1,
+  shadowLightColor: shadowLightColor_1,
+  shadowLightColorEmboss: shadowLightColor_1,
+  intensity: 1,
+  surfaceIntensity: 0,
+  depth: -3,
+);
+
 // Color palette for the application
 Color primaryColor = Color.fromRGBO(44, 45, 64, 1);
 Color cardColor = Color.fromRGBO(44, 45, 64, 1);

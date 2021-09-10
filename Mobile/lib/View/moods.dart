@@ -11,6 +11,12 @@ class MoodsView extends StatefulWidget {
 }
 
 class _MoodsViewState extends State<MoodsView> {
+  List tabActive = [
+    [1, false],
+    [2, true],
+    [3, false]
+  ];
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -24,7 +30,7 @@ class _MoodsViewState extends State<MoodsView> {
         ),
       ),
       child: Container(
-        child: Navbar(),
+        child: Navbar(tabActive),
       ),
     );
   }
