@@ -53,6 +53,7 @@ class _NavbarState extends State<Navbar> {
                 color: Colors.white,
               ),
               onPressed: () {
+                Navigator.pushNamed(context, '/moods');
                 setState(() {});
               },
             ),
@@ -66,6 +67,7 @@ class _NavbarState extends State<Navbar> {
                 color: Colors.white,
               ),
               onPressed: () {
+                Navigator.pushNamed(context, '/settings');
                 setState(() {});
               },
             ),
