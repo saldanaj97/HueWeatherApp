@@ -6,6 +6,8 @@ import 'package:mobile/Controller/basecommands.dart' as Commands;
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Service/locationservice.dart';
 import 'package:mobile/View/weather.dart';
+import 'package:mobile/View/moods.dart';
+import 'package:mobile/View/settings.dart';
 import 'package:mobile/View/decorations/decorations.dart';
 
 class HueWeatherSync extends StatelessWidget {
@@ -27,6 +29,8 @@ class HueWeatherSync extends StatelessWidget {
           initialRoute: '/',
           routes: {
             '/': (context) => WeatherPage(),
+            '/settings': (context) => SettingsView(),
+            '/moods': (context) => MoodsView(),
           },
         );
       }),
