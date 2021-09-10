@@ -79,20 +79,26 @@ class _WeatherPageState extends State<WeatherPage> {
   Widget build(BuildContext context) {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
+    List tabActive = [
+      [1, true],
+      [2, false],
+      [3, false]
+    ];
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
         backgroundColor: primaryColor,
-        navigationBar: CupertinoNavigationBar(
-          backgroundColor: Colors.transparent,
-          border: null,
-          middle: Text(
-            'Weather',
-            style: TextStyle(fontSize: 25),
-          ),
-        ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.only(left: 30, top: 60, bottom: 10),
+              child: Text(
+                'Weather',
+                style: title,
+              ),
+            ),
             Container(
               alignment: Alignment.center,
               child: Column(
@@ -100,8 +106,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width / 1.15,
-                    margin: EdgeInsets.only(bottom: 35),
-                    padding: EdgeInsets.only(top: 100),
+                    margin: EdgeInsets.only(top: 10, bottom: 35),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
                     ),
@@ -111,7 +116,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 ],
               ),
             ),
-            Container(child: Navbar())
+            Container(child: Navbar(tabActive))
           ],
         ),
       );
