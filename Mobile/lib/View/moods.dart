@@ -21,16 +21,22 @@ class _MoodsViewState extends State<MoodsView> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: primaryColor,
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: Colors.transparent,
-        border: null,
-        middle: Text(
-          'Mood',
-          style: TextStyle(fontSize: 25),
-        ),
-      ),
-      child: Container(
-        child: Navbar(tabActive),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(left: 30, top: 60, bottom: 10),
+            child: Text(
+              'Moods',
+              style: title,
+            ),
+          ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            child: Navbar(tabActive),
+          )
+        ],
       ),
     );
   }

@@ -31,7 +31,7 @@ class _NavbarState extends State<Navbar> {
 
     return Container(
       alignment: Alignment.bottomCenter,
-      margin: EdgeInsets.only(top: 5, left: 30, right: 30),
+      margin: EdgeInsets.only(top: 5, left: 30, right: 30, bottom: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
