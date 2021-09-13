@@ -33,6 +33,14 @@ class _MoodsViewState extends State<MoodsView> {
             ),
           ),
           Container(
+            child: Center(
+              child: Text(
+                'Coming soon',
+                style: TextStyle(fontSize: 35),
+              ),
+            ),
+          ),
+          Container(
             alignment: Alignment.bottomCenter,
             child: Navbar(tabActive),
           )
