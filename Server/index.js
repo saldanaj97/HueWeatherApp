@@ -86,8 +86,6 @@ app.put("/lights/:LIGHT_ID/:state_val/:brightness", (req, res) => {
     .then((result) => {
       res.send(`Light state change was successful? ${result}`);
     });
-
-  //res.send(api.lights.setLightState(req.params.LIGHT_ID, state));
 });
 
 // This function will sync the lights to the current weather conditions
@@ -110,6 +108,4 @@ app.post("/sync", (req, res) => {
     .then((result) => {
       res.send(`Light state change was successful? ${result}`);
     });
-
-  //res.send(api.lights.setLightState(req.params.LIGHT_ID, state));
 });
