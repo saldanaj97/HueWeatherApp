@@ -101,7 +101,8 @@ app.post("/sync", (req, res) => {
       // Using a LightState object to build the desired state
       state
         .on()
-        .rgb(req.body["color"][0], req.body["color"][1], req.body["color"][2]);
+        .rgb(req.body["color"][0], req.body["color"][1], req.body["color"][2])
+        .transitiontime(30);
 
       return api.lights.setLightState(req.body.id, state);
     })
