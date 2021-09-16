@@ -49,7 +49,6 @@ class _NavbarState extends State<Navbar> {
                 if (!widget.tabActive[0][1]) {
                   Navigator.push(context, FadeRoute(WeatherPage()));
                 }
-                setState(() {});
               },
             ),
           ),
@@ -65,7 +64,6 @@ class _NavbarState extends State<Navbar> {
                 if (!widget.tabActive[1][1]) {
                   Navigator.push(context, FadeRoute(MoodsView()));
                 }
-                setState(() {});
               },
             ),
           ),
@@ -81,7 +79,6 @@ class _NavbarState extends State<Navbar> {
                 if (!widget.tabActive[2][1]) {
                   Navigator.push(context, FadeRoute(SettingsView()));
                 }
-                setState(() {});
               },
             ),
           ),
