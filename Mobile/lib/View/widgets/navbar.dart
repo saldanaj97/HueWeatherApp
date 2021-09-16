@@ -100,12 +100,14 @@ class _NavbarState extends State<Navbar> {
                     lightBulbOnColor = Colors.white;
                     _lights.forEach((light) {
                       light.lightState.on = false;
+                      light.lightState.poweredOn.value = false;
                       _lightService.setLights(light.id, false, light.lightState.bri);
                     });
                   } else {
                     lightBulbOnColor = Colors.yellow;
                     _lights.forEach((light) {
                       light.lightState.on = true;
+                      light.lightState.poweredOn.value = true;
                       _lightService.setLights(light.id, true, light.lightState.bri);
                     });
                   }

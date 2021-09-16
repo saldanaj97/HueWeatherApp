@@ -8,7 +8,6 @@ import 'package:mobile/Model/location.dart';
 import 'package:mobile/View/light.dart';
 import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
-import 'package:mobile/View/decorations/hue_light_colors.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -164,26 +163,22 @@ class _WeatherPageState extends State<WeatherPage> {
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
-          child: Text(
-            weatherData[0]["main"],
-            style: TextStyle(
-              fontSize: 35,
-              color: Colors.white,
-            ),
-          ),
+          child: Text(weatherData[0]["main"],
+              style: TextStyle(
+                fontSize: 35,
+                color: Colors.white,
+              )),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text(
-                temperatureData[2].round().toString() + ' \u2109',
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                ),
-              ),
+              child: Text(temperatureData[2].round().toString() + ' \u2109',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  )),
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
@@ -195,26 +190,22 @@ class _WeatherPageState extends State<WeatherPage> {
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text(
-                (temperatureData[3].round() - 20).toString() + ' \u2109',
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                ),
-              ),
+              child: Text((temperatureData[3].round() - 20).toString() + ' \u2109',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  )),
             ),
           ],
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
           margin: EdgeInsets.only(bottom: 20),
-          child: Text(
-            'Feels like ' + temperatureData[1].round().toString() + ' \u2109',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
+          child: Text('Feels like ' + temperatureData[1].round().toString() + ' \u2109',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              )),
         ),
       ],
     );
