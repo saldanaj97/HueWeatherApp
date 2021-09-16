@@ -13,8 +13,6 @@ class LightsView extends StatefulWidget {
 }
 
 class _LightsViewState extends State<LightsView> {
-  List _lights = [];
-
   @override
   void initState() {
     super.initState();
@@ -64,14 +62,6 @@ class _LightsViewState extends State<LightsView> {
       return Container(
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 30, bottom: 10),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Lights',
-                style: title,
-              ),
-            ),
             SizedBox(
               height: 175,
               child: new ListView.builder(
@@ -79,7 +69,7 @@ class _LightsViewState extends State<LightsView> {
                 padding: EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    child: lightList(_lights, index),
+                    child: lightItem(_lights, index),
                   );
                 },
               ),
@@ -121,7 +111,7 @@ class _LightsViewState extends State<LightsView> {
   }
 
 // Widget for each individual light container in the list
-  Widget lightList(_lights, index) {
+  Widget lightItem(_lights, index) {
     LightService _lightService = LightService();
     //List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
