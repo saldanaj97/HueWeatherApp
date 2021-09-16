@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Light {
   int id;
   LightInfo lightInfo;
