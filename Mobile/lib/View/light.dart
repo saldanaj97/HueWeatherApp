@@ -64,7 +64,7 @@ class _LightsViewState extends State<LightsView> {
           children: [
             SizedBox(
               height: 175,
-              child: new ListView.builder(
+              child: ListView.builder(
                 itemCount: _lights.length,
                 padding: EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int index) {
@@ -113,6 +113,7 @@ class _LightsViewState extends State<LightsView> {
 // Widget for each individual light container in the list
   Widget lightItem(_lights, index) {
     LightService _lightService = LightService();
+    ValueNotifier<bool> poweredOn = ValueNotifier<bool>(_lights[index].lightState.on);
     //List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
     return Column(
@@ -138,15 +139,24 @@ class _LightsViewState extends State<LightsView> {
                 Expanded(
                   child: Container(
                     alignment: Alignment.centerRight,
-                    child: CupertinoSwitch(
-                      value: _lights[index].lightState.on,
-                      activeColor: Color.fromRGBO(30, 30, 50, 1),
-                      onChanged: (bool value) {
-                        setState(() {
-                          _lights[index].lightState.on = value;
-                          _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
-                        });
+                    child: ValueListenableBuilder<bool>(
+                      builder: (BuildContext context, bool value, Widget? child) {
+                        // This builder will only get called when the _counter
+                        // is updated.
+                        return CupertinoSwitch(
+                          value: _lights[index].lightState.on,
+                          activeColor: Color.fromRGBO(30, 30, 50, 1),
+                          onChanged: (bool value) {
+                            poweredOn.value = value;
+                            _lights[index].lightState.on = value;
+                            _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
+                          },
+                        );
                       },
+                      valueListenable: poweredOn,
+                      // The child parameter is most helpful if the child is
+                      // expensive to build and does not depend on the value from
+                      // the notifier.
                     ),
                   ),
                 )

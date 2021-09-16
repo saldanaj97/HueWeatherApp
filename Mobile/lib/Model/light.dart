@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
 class Light {
   int id;
   LightInfo lightInfo;
   LightState lightState;
+  static List listOfLights = [];
 
   Light(this.id, this.lightInfo, this.lightState);
-  static List listOfLights = [];
 }
 
 class LightInfo {
