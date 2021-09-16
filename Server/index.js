@@ -13,9 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(
-    `Hue Weather APP connected and listening at http://localhost:${port}. `
-  );
+  console.log(`Hue Weather APP connected and listening. `);
 });
 
 // Variable to hold the current weather conditions in the request below
@@ -34,9 +32,6 @@ app.get("/conditions/:lat/:long", (req, res) => {
     },
   })
     .then((response) => {
-      console.log(
-        `Current weather conditions from the openWeather API: ${response.data}`
-      );
       currentConditions = response.data;
     })
     .catch((error) => {
