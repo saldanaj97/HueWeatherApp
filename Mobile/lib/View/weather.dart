@@ -1,10 +1,15 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:mobile/Service/weatherservice.dart';
+import 'package:mobile/Service/lightservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
+import 'package:mobile/Model/light.dart';
+import 'package:mobile/View/decorations/hue_light_colors.dart';
 import 'package:mobile/View/light.dart';
 import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
@@ -20,8 +25,6 @@ class _WeatherPageState extends State<WeatherPage> {
   List temperatureData = [];
   LocationCommands _locationCommands = LocationCommands();
   WeatherService weatherService = WeatherService();
-  List days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  List months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
   @override
   void initState() {
@@ -33,6 +36,13 @@ class _WeatherPageState extends State<WeatherPage> {
   double toFarenheit(double kelvinTemp) {
     double farenheit = (kelvinTemp - 273.15) * (9 / 5) + 32;
     return farenheit;
+  }
+
+  // Function that will grab a list containing an rgb color from the provided color scheme
+  List getRandomColorFromWeatherConditions(List colors) {
+    final random = new Random();
+    var i = random.nextInt(colors.length);
+    return colors[i];
   }
 
   // Used to get the weather conditions from the backend
@@ -84,6 +94,8 @@ class _WeatherPageState extends State<WeatherPage> {
       [2, false],
       [3, false]
     ];
+    List lights = Light.listOfLights;
+    LightService _lightService = LightService();
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
@@ -112,13 +124,39 @@ class _WeatherPageState extends State<WeatherPage> {
                     ),
                     child: Neumorphic(child: displayInformation(date), style: neumorphicBox),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, bottom: 10),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Lights',
-                      style: title,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 30, bottom: 10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Lights',
+                          style: title,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(0),
+                        child: CupertinoButton(
+                          child: Icon(
+                            Icons.sync,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            // Pass a different color to each light for the specified duration to simulate a color loop using the palette
+                            Timer.periodic(
+                              Duration(seconds: 2),
+                              (Timer timer) => {
+                                lights.forEach((light) {
+                                  _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(thunderStormColors));
+                                }),
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   Container(child: LightsView()),
                 ],

@@ -80,7 +80,6 @@ app.put("/lights/:LIGHT_ID/:state_val/:brightness", (req, res) => {
     .then((api) => {
       // Using a LightState object to build the desired state
       if (lightOn == "true") {
-        console.log(lightOn);
         state.on();
       } else {
         console.log("off");
@@ -91,12 +90,31 @@ app.put("/lights/:LIGHT_ID/:state_val/:brightness", (req, res) => {
     })
     .then((result) => {
       res.send(`Light state change was successful? ${result}`);
-      console.log(`Light state change was successful? ${result}`);
     });
 
   //res.send(api.lights.setLightState(req.params.LIGHT_ID, state));
 });
 
-app.get("/sync", (req, res) => {
-  res.send("Syncing light with the weather. ");
+// This function will sync the lights to the current weather conditions
+app.post("/sync", (req, res) => {
+  const state = new LightState();
+  v3.discovery
+    .nupnpSearch()
+    .then(() => {
+      const host = "192.168.1.150";
+      return v3.api.createLocal(host).connect(process.env.HUE_USERNAME);
+    })
+    .then((api) => {
+      // Using a LightState object to build the desired state
+      state
+        .on()
+        .rgb(req.body["color"][0], req.body["color"][1], req.body["color"][2]);
+
+      return api.lights.setLightState(req.body.id, state);
+    })
+    .then((result) => {
+      res.send(`Light state change was successful? ${result}`);
+    });
+
+  //res.send(api.lights.setLightState(req.params.LIGHT_ID, state));
 });
