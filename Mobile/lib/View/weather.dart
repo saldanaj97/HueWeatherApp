@@ -144,13 +144,14 @@ class _WeatherPageState extends State<WeatherPage> {
                           ),
                           onPressed: () {
                             List lights = Light.listOfLights;
+                            List colorPalatte = weatherService.getColorPalette(weatherData[0]["main"]);
                             // Pass a different color to each light for the specified duration to simulate a color loop using the palette
                             Timer.periodic(
-                              Duration(seconds: 5),
+                              Duration(seconds: 10),
                               (Timer timer) => {
                                 lights.forEach((light) {
                                   print('${light.id} has been set');
-                                  _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(thunderStormColors));
+                                  _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalatte));
                                 }),
                               },
                             );
