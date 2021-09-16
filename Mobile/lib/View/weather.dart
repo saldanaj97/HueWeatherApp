@@ -8,6 +8,7 @@ import 'package:mobile/Model/location.dart';
 import 'package:mobile/View/light.dart';
 import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
+import 'package:mobile/View/decorations/hue_light_colors.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -111,6 +112,14 @@ class _WeatherPageState extends State<WeatherPage> {
                       borderRadius: BorderRadius.circular(6.0),
                     ),
                     child: Neumorphic(child: displayInformation(date), style: neumorphicBox),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 30, bottom: 10),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Lights',
+                      style: title,
+                    ),
                   ),
                   Container(child: LightsView()),
                 ],
