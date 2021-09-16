@@ -48,7 +48,13 @@ class _LightsViewState extends State<LightsView> {
                       )),
                 ),
                 setState(() {
+                  // Set the global list of lights equal to the list we just read in from the bridge
                   Light.listOfLights = lights;
+
+                  // Now set the global ValueNotifier for each light widgets on/off switches
+                  Light.listOfLights.forEach((light) {
+                    light.lightState.poweredOn.value = light.lightState.on;
+                  });
                 }),
               }),
         });
@@ -113,7 +119,7 @@ class _LightsViewState extends State<LightsView> {
 // Widget for each individual light container in the list
   Widget lightItem(_lights, index) {
     LightService _lightService = LightService();
-    ValueNotifier<bool> poweredOn = ValueNotifier<bool>(_lights[index].lightState.on);
+    //ValueNotifier<bool> poweredOn = ValueNotifier<bool>(_lights[index].lightState.on);
     //List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
     return Column(
@@ -147,13 +153,13 @@ class _LightsViewState extends State<LightsView> {
                           value: _lights[index].lightState.on,
                           activeColor: Color.fromRGBO(30, 30, 50, 1),
                           onChanged: (bool value) {
-                            poweredOn.value = value;
+                            _lights[index].lightState.poweredOn.value = value;
                             _lights[index].lightState.on = value;
                             _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
                           },
                         );
                       },
-                      valueListenable: poweredOn,
+                      valueListenable: _lights[index].lightState.poweredOn,
                       // The child parameter is most helpful if the child is
                       // expensive to build and does not depend on the value from
                       // the notifier.

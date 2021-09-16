@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Light {
   int id;
   LightInfo lightInfo;
@@ -24,6 +26,7 @@ class LightState {
   String effect = '';
   double x = 0.0;
   double y = 0.0;
+  ValueNotifier<bool> poweredOn = ValueNotifier<bool>(false);
 
   LightState(this.on, this.bri, this.hue, this.sat, this.effect, this.x, this.y);
 }
