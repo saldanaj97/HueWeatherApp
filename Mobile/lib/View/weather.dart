@@ -9,7 +9,6 @@ import 'package:mobile/Service/lightservice.dart';
 import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
 import 'package:mobile/Model/light.dart';
-import 'package:mobile/View/decorations/hue_light_colors.dart';
 import 'package:mobile/View/light.dart';
 import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
@@ -87,8 +86,6 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
     List tabActive = [
       [1, true],
       [2, false],
@@ -121,7 +118,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
                     ),
-                    child: Neumorphic(child: displayInformation(date), style: neumorphicBox),
+                    child: Neumorphic(child: displayInformation(), style: neumorphicBox),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,7 +174,7 @@ class _WeatherPageState extends State<WeatherPage> {
   }
 
 // This widget will hold all the containers and data that needs to be displayed
-  Widget displayInformation(date) {
+  Widget displayInformation() {
     return Column(
       children: [
         Container(
