@@ -1,5 +1,6 @@
 /.env
 .vscode/
+Designs/
 node_modules/
 mobile/dart_tool
 mobile/idea

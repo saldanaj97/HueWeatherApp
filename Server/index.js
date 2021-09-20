@@ -110,3 +110,22 @@ app.post("/sync", (req, res) => {
       res.send(`Light state change was successful? ${result}`);
     });
 });
+
+// This function will stop the light sync
+app.post("/sync/off", (req, res) => {
+  const state = new LightState();
+  v3.discovery
+    .nupnpSearch()
+    .then(() => {
+      const host = "192.168.1.150";
+      return v3.api.createLocal(host).connect(process.env.HUE_USERNAME);
+    })
+    .then((api) => {
+      // Using a LightState object to build the desired state
+      state.on(false);
+      return api.lights.setLightState(req.body.id, state);
+    })
+    .then((result) => {
+      res.send(`Light state change was successful? ${result}`);
+    });
+});

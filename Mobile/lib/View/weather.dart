@@ -24,6 +24,9 @@ class _WeatherPageState extends State<WeatherPage> {
   List temperatureData = [];
   LocationCommands _locationCommands = LocationCommands();
   WeatherService weatherService = WeatherService();
+  LightService _lightService = LightService();
+  String syncButtonText = 'Sync';
+  bool lightsSyncing = false;
 
   @override
   void initState() {
@@ -89,10 +92,42 @@ class _WeatherPageState extends State<WeatherPage> {
     List tabActive = [
       [1, true],
       [2, false],
-      [3, false]
+      [3, false],
     ];
-    LightService _lightService = LightService();
 
+    /* Function that periodically sends a request to the backend to make the lights change color.
+      we pass a new color from the appropriate weather color pallete and simualate a color loop 
+      with those colors. If syncing is false, the user wants to sync lights so we set
+      syncing to true and sync the lights with the color palette
+      If syncing is true, the user wants to stop the light sync so we cancel the timer
+      and turn off the lights */
+    void syncLights(List lights, List colorPalette, bool lightsSyncing, Timer timer) {
+      // Check if we need to turn the light sync on or off
+      if (lightsSyncing) {
+        lights.forEach((light) {
+          _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
+        });
+      } else {
+        timer.cancel();
+      }
+    }
+
+    // Functions that will be used to change the text of the widget according to the sync state
+    void startTimer() {
+      setState(() {
+        syncButtonText = 'Stop syncing';
+      });
+      print('Light cycle turned on');
+    }
+
+    void stopTimer() {
+      setState(() {
+        syncButtonText = 'Sync';
+      });
+      print('Light cycle turned off');
+    }
+
+    // Render the widget now based on whether the weather data has been retrieved or not
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
         backgroundColor: primaryColor,
@@ -132,26 +167,42 @@ class _WeatherPageState extends State<WeatherPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.all(0),
-                        child: CupertinoButton(
-                          child: Icon(
-                            Icons.sync,
-                            size: 30,
-                            color: Colors.white,
+                        margin: EdgeInsets.only(right: 30),
+                        child: NeumorphicButton(
+                          style: neumorphicSyncButton,
+                          child: Text(
+                            syncButtonText,
+                            style: TextStyle(color: Colors.white, fontSize: 15),
                           ),
                           onPressed: () {
+                            // Get the color palette for the lights based on the weather
                             List lights = Light.listOfLights;
-                            List colorPalatte = weatherService.getColorPalette(weatherData[0]["main"]);
-                            // Pass a different color to each light for the specified duration to simulate a color loop using the palette
-                            Timer.periodic(
-                              Duration(seconds: 10),
-                              (Timer timer) => {
+                            List colorPalette = weatherService.getColorPalette(weatherData[0]["main"]);
+
+                            if (!lightsSyncing) {
+                              setState(() {
+                                lightsSyncing = true;
                                 lights.forEach((light) {
-                                  print('${light.id} has been set');
-                                  _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalatte));
-                                }),
-                              },
-                            );
+                                  light.lightState.on = true;
+                                  light.lightState.poweredOn.value = true;
+                                });
+                              });
+                              startTimer();
+                            } else {
+                              setState(() {
+                                lightsSyncing = false;
+                              });
+                              stopTimer();
+                            }
+
+                            // Set the light on immedietly since the timer won't turn on the lights right away
+                            lights.forEach((light) {
+                              _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
+                            });
+
+                            Timer.periodic(Duration(seconds: 5), (timer) {
+                              syncLights(lights, colorPalette, lightsSyncing, timer);
+                            });
                           },
                         ),
                       ),
@@ -175,12 +226,19 @@ class _WeatherPageState extends State<WeatherPage> {
 
 // This widget will hold all the containers and data that needs to be displayed
   Widget displayInformation() {
+    String mainWeather = weatherData[0]["main"];
+    String city = weatherData[1];
+    String temp = temperatureData[0].round().toString();
+    String feelsLikeTemp = temperatureData[1].round().toString();
+    String dailyLow = temperatureData[2].round().toString();
+    String dailyHigh = (temperatureData[3].round()).toString();
+
     return Column(
       children: [
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
-            weatherData[1],
+            city,
             style: TextStyle(fontSize: 45, color: Colors.white, fontWeight: FontWeight.w400),
           ),
         ),
@@ -194,13 +252,13 @@ class _WeatherPageState extends State<WeatherPage> {
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
-            temperatureData[0].round().toString() + ' \u2109',
+            temp + ' \u2109',
             style: TextStyle(fontSize: 55, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
-          child: Text(weatherData[0]["main"],
+          child: Text(mainWeather,
               style: TextStyle(
                 fontSize: 35,
                 color: Colors.white,
@@ -211,7 +269,7 @@ class _WeatherPageState extends State<WeatherPage> {
           children: [
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text(temperatureData[2].round().toString() + ' \u2109',
+              child: Text(dailyLow + ' \u2109',
                   style: TextStyle(
                     fontSize: 25,
                     color: Colors.white,
@@ -227,7 +285,7 @@ class _WeatherPageState extends State<WeatherPage> {
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text((temperatureData[3].round() - 20).toString() + ' \u2109',
+              child: Text(dailyHigh + ' \u2109',
                   style: TextStyle(
                     fontSize: 25,
                     color: Colors.white,
@@ -238,7 +296,7 @@ class _WeatherPageState extends State<WeatherPage> {
         Container(
           padding: EdgeInsets.only(top: 15),
           margin: EdgeInsets.only(bottom: 20),
-          child: Text('Feels like ' + temperatureData[1].round().toString() + ' \u2109',
+          child: Text('Feels like ' + feelsLikeTemp + ' \u2109',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,

@@ -28,7 +28,6 @@ NeumorphicStyle neumorphicButton = NeumorphicStyle(
   depth: 5,
 );
 
-// Neumorphic button styling
 NeumorphicStyle neumorphicButtonPressed = NeumorphicStyle(
   shape: NeumorphicShape.concave,
   boxShape: NeumorphicBoxShape.circle(),
@@ -40,6 +39,20 @@ NeumorphicStyle neumorphicButtonPressed = NeumorphicStyle(
   intensity: 1,
   surfaceIntensity: 0,
   depth: -3,
+);
+
+// Neumorphic sync weather button styling
+NeumorphicStyle neumorphicSyncButton = NeumorphicStyle(
+  shape: NeumorphicShape.convex,
+  boxShape: NeumorphicBoxShape.rect(),
+  color: primaryColor,
+  shadowDarkColor: shadowDarkColor_1,
+  shadowDarkColorEmboss: shadowDarkColor_1,
+  shadowLightColor: shadowLightColor_1,
+  shadowLightColorEmboss: shadowLightColor_1,
+  intensity: 1,
+  surfaceIntensity: 0,
+  depth: 5,
 );
 
 // Color palette for the application
