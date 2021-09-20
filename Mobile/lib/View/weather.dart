@@ -89,9 +89,27 @@ class _WeatherPageState extends State<WeatherPage> {
     List tabActive = [
       [1, true],
       [2, false],
-      [3, false]
+      [3, false],
     ];
     LightService _lightService = LightService();
+    bool lightsSyncing = false;
+
+    /* Function that periodically sends a request to the backend to make the lights change color.
+      we pass a new color from the appropriate weather color pallete and simualate a color loop 
+      with those colors. If syncing is false, the user wants to sync lights so we set
+      syncing to true and sync the lights with the color palette
+      If syncing is true, the user wants to stop the light sync so we cancel the timer
+      and turn off the lights */
+    void syncLights(List lights, List colorPalette, bool lightsSyncing, Timer timer) {
+      // Check if we need to turn the light sync on or off
+      if (lightsSyncing) {
+        lights.forEach((light) {
+          _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
+        });
+      } else {
+        timer.cancel();
+      }
+    }
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
@@ -140,18 +158,26 @@ class _WeatherPageState extends State<WeatherPage> {
                             color: Colors.white,
                           ),
                           onPressed: () {
+                            // Get the color palette for the lights based on the weather
                             List lights = Light.listOfLights;
-                            List colorPalatte = weatherService.getColorPalette(weatherData[0]["main"]);
-                            // Pass a different color to each light for the specified duration to simulate a color loop using the palette
-                            Timer.periodic(
-                              Duration(seconds: 10),
-                              (Timer timer) => {
-                                lights.forEach((light) {
-                                  print('${light.id} has been set');
-                                  _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalatte));
-                                }),
-                              },
-                            );
+                            List colorPalette = weatherService.getColorPalette(weatherData[0]["main"]);
+                            if (!lightsSyncing) {
+                              lightsSyncing = true;
+
+                              // Set the light on immedietly since the timer won't turn on the lights right away
+                              lights.forEach((light) {
+                                _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
+                              });
+
+                              Timer.periodic(Duration(seconds: 10), (timer) {
+                                syncLights(lights, colorPalette, lightsSyncing, timer);
+                              });
+                            } else {
+                              lightsSyncing = false;
+                              Timer.periodic(Duration(seconds: 1), (timer) {
+                                syncLights(lights, colorPalette, lightsSyncing, timer);
+                              });
+                            }
                           },
                         ),
                       ),
@@ -175,12 +201,12 @@ class _WeatherPageState extends State<WeatherPage> {
 
 // This widget will hold all the containers and data that needs to be displayed
   Widget displayInformation() {
+    String mainWeather = weatherData[0]["main"];
     String city = weatherData[1];
     String temp = temperatureData[0].round().toString();
-    String mainWeather = weatherData[0]["main"];
-    String dailyLow = temperatureData[2].round().toString();
-    String dailyHigh = (temperatureData[3].round() - 20).toString();
     String feelsLikeTemp = temperatureData[1].round().toString();
+    String dailyLow = temperatureData[2].round().toString();
+    String dailyHigh = (temperatureData[3].round()).toString();
 
     return Column(
       children: [

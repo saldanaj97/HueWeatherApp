@@ -21,4 +21,15 @@ class LightService {
       http.post(Uri.parse('http://localhost:3000/sync/'), headers: {"Content-Type": "application/json"}, body: body),
     );
   }
+
+  Future<http.Response> stopLightsFromSyncingWithWeather(ID) async {
+    Map data = {
+      'id': ID,
+    };
+
+    var body = json.encode(data);
+    return await Future<http.Response>.value(
+      http.post(Uri.parse('http://localhost:3000/sync/off'), headers: {"Content-Type": "application/json"}, body: body),
+    );
+  }
 }
