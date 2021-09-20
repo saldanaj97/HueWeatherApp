@@ -175,12 +175,19 @@ class _WeatherPageState extends State<WeatherPage> {
 
 // This widget will hold all the containers and data that needs to be displayed
   Widget displayInformation() {
+    String city = weatherData[1];
+    String temp = temperatureData[0].round().toString();
+    String mainWeather = weatherData[0]["main"];
+    String dailyLow = temperatureData[2].round().toString();
+    String dailyHigh = (temperatureData[3].round() - 20).toString();
+    String feelsLikeTemp = temperatureData[1].round().toString();
+
     return Column(
       children: [
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
-            weatherData[1],
+            city,
             style: TextStyle(fontSize: 45, color: Colors.white, fontWeight: FontWeight.w400),
           ),
         ),
@@ -194,13 +201,13 @@ class _WeatherPageState extends State<WeatherPage> {
         Container(
           padding: EdgeInsets.only(top: 15),
           child: Text(
-            temperatureData[0].round().toString() + ' \u2109',
+            temp + ' \u2109',
             style: TextStyle(fontSize: 55, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
-          child: Text(weatherData[0]["main"],
+          child: Text(mainWeather,
               style: TextStyle(
                 fontSize: 35,
                 color: Colors.white,
@@ -211,7 +218,7 @@ class _WeatherPageState extends State<WeatherPage> {
           children: [
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text(temperatureData[2].round().toString() + ' \u2109',
+              child: Text(dailyLow + ' \u2109',
                   style: TextStyle(
                     fontSize: 25,
                     color: Colors.white,
@@ -227,7 +234,7 @@ class _WeatherPageState extends State<WeatherPage> {
             ),
             Container(
               padding: EdgeInsets.only(top: 15),
-              child: Text((temperatureData[3].round() - 20).toString() + ' \u2109',
+              child: Text(dailyHigh + ' \u2109',
                   style: TextStyle(
                     fontSize: 25,
                     color: Colors.white,
@@ -238,7 +245,7 @@ class _WeatherPageState extends State<WeatherPage> {
         Container(
           padding: EdgeInsets.only(top: 15),
           margin: EdgeInsets.only(bottom: 20),
-          child: Text('Feels like ' + temperatureData[1].round().toString() + ' \u2109',
+          child: Text('Feels like ' + feelsLikeTemp + ' \u2109',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
