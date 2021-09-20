@@ -112,25 +112,22 @@ class _WeatherPageState extends State<WeatherPage> {
       }
     }
 
-    // Function that will be used to start up a timer
-    Timer startTimer() {
-      Duration duration = Duration(seconds: 5);
+    // Functions that will be used to change the text of the widget according to the sync state
+    void startTimer() {
       setState(() {
         syncButtonText = 'Stop syncing';
       });
-      return Timer(duration, () {
-        print('Light cycle turned on');
-      });
+      print('Light cycle turned on');
     }
 
-    void stopTimer(var timer) {
-      timer.cancel();
+    void stopTimer() {
       setState(() {
         syncButtonText = 'Sync';
       });
       print('Light cycle turned off');
     }
 
+    // Render the widget now based on whether the weather data has been retrieved or not
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
         backgroundColor: primaryColor,
@@ -181,17 +178,17 @@ class _WeatherPageState extends State<WeatherPage> {
                             // Get the color palette for the lights based on the weather
                             List lights = Light.listOfLights;
                             List colorPalette = weatherService.getColorPalette(weatherData[0]["main"]);
-                            Timer lightCycleTimer = startTimer();
 
                             if (!lightsSyncing) {
                               setState(() {
                                 lightsSyncing = true;
                               });
+                              startTimer();
                             } else {
                               setState(() {
                                 lightsSyncing = false;
                               });
-                              stopTimer(lightCycleTimer);
+                              stopTimer();
                             }
 
                             // Set the light on immedietly since the timer won't turn on the lights right away
