@@ -24,6 +24,9 @@ class _WeatherPageState extends State<WeatherPage> {
   List temperatureData = [];
   LocationCommands _locationCommands = LocationCommands();
   WeatherService weatherService = WeatherService();
+  LightService _lightService = LightService();
+  String syncButtonText = 'Sync';
+  bool lightsSyncing = false;
 
   @override
   void initState() {
@@ -91,8 +94,6 @@ class _WeatherPageState extends State<WeatherPage> {
       [2, false],
       [3, false],
     ];
-    LightService _lightService = LightService();
-    bool lightsSyncing = false;
 
     /* Function that periodically sends a request to the backend to make the lights change color.
       we pass a new color from the appropriate weather color pallete and simualate a color loop 
@@ -109,6 +110,25 @@ class _WeatherPageState extends State<WeatherPage> {
       } else {
         timer.cancel();
       }
+    }
+
+    // Function that will be used to start up a timer
+    Timer startTimer() {
+      Duration duration = Duration(seconds: 5);
+      setState(() {
+        syncButtonText = 'Stop syncing';
+      });
+      return Timer(duration, () {
+        print('Light cycle turned on');
+      });
+    }
+
+    void stopTimer(var timer) {
+      timer.cancel();
+      setState(() {
+        syncButtonText = 'Sync';
+      });
+      print('Light cycle turned off');
     }
 
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
@@ -150,34 +170,38 @@ class _WeatherPageState extends State<WeatherPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.all(0),
-                        child: CupertinoButton(
-                          child: Icon(
-                            Icons.sync,
-                            size: 30,
-                            color: Colors.white,
+                        margin: EdgeInsets.only(right: 30),
+                        child: NeumorphicButton(
+                          style: neumorphicSyncButton,
+                          child: Text(
+                            syncButtonText,
+                            style: TextStyle(color: Colors.white, fontSize: 15),
                           ),
                           onPressed: () {
                             // Get the color palette for the lights based on the weather
                             List lights = Light.listOfLights;
                             List colorPalette = weatherService.getColorPalette(weatherData[0]["main"]);
+                            Timer lightCycleTimer = startTimer();
+
                             if (!lightsSyncing) {
-                              lightsSyncing = true;
-
-                              // Set the light on immedietly since the timer won't turn on the lights right away
-                              lights.forEach((light) {
-                                _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
-                              });
-
-                              Timer.periodic(Duration(seconds: 10), (timer) {
-                                syncLights(lights, colorPalette, lightsSyncing, timer);
+                              setState(() {
+                                lightsSyncing = true;
                               });
                             } else {
-                              lightsSyncing = false;
-                              Timer.periodic(Duration(seconds: 1), (timer) {
-                                syncLights(lights, colorPalette, lightsSyncing, timer);
+                              setState(() {
+                                lightsSyncing = false;
                               });
+                              stopTimer(lightCycleTimer);
                             }
+
+                            // Set the light on immedietly since the timer won't turn on the lights right away
+                            lights.forEach((light) {
+                              _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
+                            });
+
+                            Timer.periodic(Duration(seconds: 5), (timer) {
+                              syncLights(lights, colorPalette, lightsSyncing, timer);
+                            });
                           },
                         ),
                       ),
