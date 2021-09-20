@@ -182,6 +182,10 @@ class _WeatherPageState extends State<WeatherPage> {
                             if (!lightsSyncing) {
                               setState(() {
                                 lightsSyncing = true;
+                                lights.forEach((light) {
+                                  light.lightState.on = true;
+                                  light.lightState.poweredOn.value = true;
+                                });
                               });
                               startTimer();
                             } else {
