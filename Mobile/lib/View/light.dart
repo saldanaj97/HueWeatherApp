@@ -1,7 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'dart:convert';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/Service/lightservice.dart';
 import 'package:mobile/View/decorations/decorations.dart';
@@ -91,36 +91,9 @@ class _LightsViewState extends State<LightsView> {
     }
   }
 
-// Formulas for hue xy to rgb color conversion are from the link below:
-// https://github.com/PhilipsHue/PhilipsHueSDK-iOS-OSX/commit/00187a3db88dedd640f5ddfa8a474458dff4e1db
-  List XYtoRGB(double hueX, double hueY, double brightness) {
-    List rgb = [];
-
-    // Calculate xyz values
-    double x = hueX;
-    double y = hueY;
-    double z = 1.0 - x - y;
-    double _y = brightness;
-    double _x = (_y / y) * x;
-    double _z = (_y / y) * z;
-
-    // Convert to rgb
-    double r = _x * 1.4628067 - _y * 0.1840623 - _z * 0.2743606;
-    double g = -_x * 0.5217933 + _y * 1.4472381 + _z * 0.0677227;
-    double b = (_x * 0.0349342 - _y * 0.0968930 + _z * 1.2884099);
-
-    // Add to the list and return the list
-    rgb.add(r);
-    rgb.add(g);
-    rgb.add(b);
-    return rgb;
-  }
-
 // Widget for each individual light container in the list
   Widget lightItem(_lights, index) {
     LightService _lightService = LightService();
-    //ValueNotifier<bool> poweredOn = ValueNotifier<bool>(_lights[index].lightState.on);
-    //List rgb = XYtoRGB(_lights[index].lightState.x, _lights[index].lightState.y, _lights[index].lightState.bri.toDouble() / 254);
 
     return Column(
       children: [
