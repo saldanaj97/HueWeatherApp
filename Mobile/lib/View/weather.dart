@@ -236,9 +236,18 @@ class _WeatherPageState extends State<WeatherPage> {
               child: weatherCardSkeleton(context),
             ),
             Container(
+              margin: EdgeInsets.only(left: 30, bottom: 10),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Lights',
+                style: title,
+              ),
+            ),
+            Container(
               alignment: Alignment.center,
               child: lightsListSkeleton(context),
             ),
+            Container(child: Navbar(tabActive))
           ],
         ),
       );
