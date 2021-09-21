@@ -147,7 +147,7 @@ class _LightsViewState extends State<LightsView> {
                     alignment: Alignment.centerRight,
                     child: ValueListenableBuilder<bool>(
                       builder: (BuildContext context, bool value, Widget? child) {
-                        // This builder will only get called when the _counter
+                        // This builder will only get called when the light power
                         // is updated.
                         return CupertinoSwitch(
                           value: _lights[index].lightState.on,
