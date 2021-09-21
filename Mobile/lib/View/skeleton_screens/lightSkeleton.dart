@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/View/decorations/decorations.dart';
 import 'package:mobile/View/widgets/skeleton_loading_widgets.dart';
 
 class LightsSkeletonLoading extends StatelessWidget {

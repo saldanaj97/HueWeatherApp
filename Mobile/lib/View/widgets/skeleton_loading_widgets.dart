@@ -101,7 +101,6 @@ Widget weatherCardSkeleton(BuildContext context) {
 
 // This widget will be used to build the skeleton loading animation for the list of lights
 Widget lightsListSkeleton(BuildContext context) {
-  List _lights = Light.listOfLights;
   return Container(
     child: Column(
       children: [
