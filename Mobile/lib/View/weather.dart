@@ -13,7 +13,6 @@ import 'package:mobile/View/light.dart';
 import 'package:mobile/View/skeleton_screens/weatherSkeleton.dart';
 import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
-import 'package:mobile/View/widgets/skeleton_loading_widgets.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);

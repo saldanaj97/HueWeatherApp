@@ -112,7 +112,7 @@ Widget lightsListSkeleton(BuildContext context) {
             padding: EdgeInsets.all(0),
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                child: lightItemSkeleton(context, _lights, index),
+                child: lightItemSkeleton(context),
               );
             },
           ),
@@ -123,7 +123,7 @@ Widget lightsListSkeleton(BuildContext context) {
 }
 
 // This widget will be used to render the individual list item skeleton
-Widget lightItemSkeleton(BuildContext context, List _lights, int index) {
+Widget lightItemSkeleton(BuildContext context) {
   return Column(
     children: [
       Container(

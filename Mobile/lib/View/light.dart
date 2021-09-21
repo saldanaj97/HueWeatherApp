@@ -97,7 +97,7 @@ class _LightsViewState extends State<LightsView> {
                   padding: EdgeInsets.all(0),
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      child: lightItemSkeleton(context, _lights, index),
+                      child: lightItemSkeleton(context),
                     );
                   },
                 ),
