@@ -5,6 +5,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/Service/lightservice.dart';
 import 'package:mobile/View/decorations/decorations.dart';
+import 'package:mobile/View/widgets/skeleton_loading_widgets.dart';
 
 class LightsView extends StatefulWidget {
   const LightsView({Key? key}) : super(key: key);
@@ -86,7 +87,24 @@ class _LightsViewState extends State<LightsView> {
     } else {
       // Data is loading
       return Center(
-        child: CupertinoActivityIndicator(),
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 175,
+                child: ListView.builder(
+                  itemCount: 8,
+                  padding: EdgeInsets.all(0),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: lightItemSkeleton(context, _lights, index),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       );
     }
   }
