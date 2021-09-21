@@ -26,65 +26,66 @@ Widget weatherCardSkeleton(BuildContext context) {
                       padding: EdgeInsets.only(top: 15),
                       margin: EdgeInsets.only(bottom: 15),
                       child: SkeletonAnimation(
+                        borderRadius: BorderRadius.circular(25.0),
                         child: Container(
                           height: 45,
                           width: MediaQuery.of(context).size.width * 0.75,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: primaryColor),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.0), color: primaryColor),
                         ),
                       ),
                     ),
                     Container(
                       child: SkeletonAnimation(
+                        borderRadius: BorderRadius.circular(100.0),
                         child: Container(
                           height: 120,
                           width: 120,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: primaryColor),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.0), color: primaryColor),
                         ),
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 15),
                       child: SkeletonAnimation(
+                        borderRadius: BorderRadius.circular(25.0),
                         child: Container(
                           height: 45,
                           width: MediaQuery.of(context).size.width * 0.55,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: primaryColor),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.0), color: primaryColor),
                         ),
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 15),
                       child: SkeletonAnimation(
+                        borderRadius: BorderRadius.circular(15.0),
                         child: Container(
                           height: 75,
                           width: MediaQuery.of(context).size.width * 0.2,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: primaryColor),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: primaryColor),
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 15),
-                          child: SkeletonAnimation(
-                            child: Container(
-                              height: 25,
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: primaryColor),
-                            ),
-                          ),
+                    Container(
+                      padding: EdgeInsets.only(top: 15),
+                      child: SkeletonAnimation(
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: Container(
+                          height: 25,
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.0), color: primaryColor),
                         ),
-                      ],
+                      ),
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 15),
                       margin: EdgeInsets.only(bottom: 20),
                       child: SkeletonAnimation(
+                        borderRadius: BorderRadius.circular(25.0),
                         child: Container(
                           height: 25,
                           width: MediaQuery.of(context).size.width * 0.5,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: primaryColor),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.0), color: primaryColor),
                         ),
                       ),
                     ),
@@ -137,9 +138,10 @@ Widget lightItemSkeleton(BuildContext context, List _lights, int index) {
                   padding: EdgeInsets.all(15),
                   alignment: Alignment.centerLeft,
                   child: SkeletonAnimation(
+                    borderRadius: BorderRadius.circular(25.0),
                     child: Container(
                       height: 25,
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: primaryColor),
                     ),
                   ),
