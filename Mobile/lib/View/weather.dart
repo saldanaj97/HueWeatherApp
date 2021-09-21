@@ -12,6 +12,7 @@ import 'package:mobile/Model/light.dart';
 import 'package:mobile/View/light.dart';
 import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
+import 'package:mobile/View/widgets/skeleton_loading_widgets.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -217,9 +218,29 @@ class _WeatherPageState extends State<WeatherPage> {
         ),
       );
     } else {
-      // Data is loading
-      return Center(
-        child: CupertinoActivityIndicator(),
+      return CupertinoPageScaffold(
+        backgroundColor: primaryColor,
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.only(left: 30, top: 60, bottom: 10),
+              child: Text(
+                'Weather',
+                style: title,
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: weatherCardSkeleton(context),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: lightsListSkeleton(context),
+            ),
+          ],
+        ),
       );
     }
   }
