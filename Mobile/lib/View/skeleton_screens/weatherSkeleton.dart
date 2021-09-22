@@ -18,7 +18,7 @@ class WeatherSkeletonLoading extends StatelessWidget {
     return CupertinoPageScaffold(
       backgroundColor: primaryColor,
       child: Column(
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             alignment: Alignment.topLeft,
