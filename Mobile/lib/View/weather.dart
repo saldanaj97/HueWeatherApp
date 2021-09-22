@@ -120,7 +120,7 @@ class _WeatherPageState extends State<WeatherPage> {
       return CupertinoPageScaffold(
         backgroundColor: primaryColor,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               alignment: Alignment.topLeft,
