@@ -149,7 +149,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 30, bottom: 10),
+                        margin: EdgeInsets.only(left: 30, bottom: 15),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Lights',
@@ -157,7 +157,7 @@ class _WeatherPageState extends State<WeatherPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(right: 30),
+                        margin: EdgeInsets.only(bottom: 15, right: 30),
                         child: syncButton(),
                       ),
                     ],

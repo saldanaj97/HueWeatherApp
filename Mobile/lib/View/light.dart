@@ -77,7 +77,7 @@ class _LightsViewState extends State<LightsView> {
                 padding: EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    child: lightItem(_lights, index),
+                    child: lightItem(_lights[index]),
                   );
                 },
               ),
@@ -92,14 +92,16 @@ class _LightsViewState extends State<LightsView> {
   }
 
 // Widget for each individual light container in the list
-  Widget lightItem(_lights, index) {
+  Widget lightItem(var light) {
     LightService _lightService = LightService();
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
 
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-          width: MediaQuery.of(context).size.width / 1.15,
+          margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10),
+          width: width / 1.15,
           child: Neumorphic(
             style: neumorphicBox,
             child: Row(
@@ -109,9 +111,9 @@ class _LightsViewState extends State<LightsView> {
                     padding: EdgeInsets.all(15),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      _lights[index].lightInfo.name,
+                      light.lightInfo.name,
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 17, color: Colors.white),
+                      style: TextStyle(fontSize: width * .035, color: Colors.white),
                     ),
                   ),
                 ),
@@ -123,16 +125,16 @@ class _LightsViewState extends State<LightsView> {
                         // This builder will only get called when the light power
                         // is updated.
                         return CupertinoSwitch(
-                          value: _lights[index].lightState.on,
+                          value: light.lightState.on,
                           activeColor: Color.fromRGBO(30, 30, 50, 1),
                           onChanged: (bool value) {
-                            _lights[index].lightState.poweredOn.value = value;
-                            _lights[index].lightState.on = value;
-                            _lightService.setLights(_lights[index].id, value, _lights[index].lightState.bri);
+                            light.lightState.poweredOn.value = value;
+                            light.lightState.on = value;
+                            _lightService.setLights(light.id, value, light.lightState.bri);
                           },
                         );
                       },
-                      valueListenable: _lights[index].lightState.poweredOn,
+                      valueListenable: light.lightState.poweredOn,
                       // The child parameter is most helpful if the child is
                       // expensive to build and does not depend on the value from
                       // the notifier.
