@@ -26,6 +26,7 @@ class HueWeatherSync extends StatelessWidget {
             brightness: Brightness.dark,
             primaryColor: primaryColor,
           ),
+          debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
             '/': (context) => WeatherPage(),

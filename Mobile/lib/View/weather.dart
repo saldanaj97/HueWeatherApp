@@ -10,6 +10,7 @@ import 'package:mobile/Controller/location.dart';
 import 'package:mobile/Model/location.dart';
 import 'package:mobile/Model/light.dart';
 import 'package:mobile/View/light.dart';
+import 'package:mobile/View/skeleton_screens/weatherSkeleton.dart';
 import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
 
@@ -87,6 +88,23 @@ class _WeatherPageState extends State<WeatherPage> {
         );
   }
 
+  /* Function that periodically sends a request to the backend to make the lights change color.
+      we pass a new color from the appropriate weather color pallete and simualate a color loop 
+      with those colors. If syncing is false, the user wants to sync lights so we set
+      syncing to true and sync the lights with the color palette
+      If syncing is true, the user wants to stop the light sync so we cancel the timer
+      and turn off the lights */
+  void syncLights(List lights, List colorPalette, bool lightsSyncing, Timer timer) {
+    // Check if we need to turn the light sync on or off
+    if (lightsSyncing) {
+      lights.forEach((light) {
+        _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
+      });
+    } else {
+      timer.cancel();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List tabActive = [
@@ -94,38 +112,6 @@ class _WeatherPageState extends State<WeatherPage> {
       [2, false],
       [3, false],
     ];
-
-    /* Function that periodically sends a request to the backend to make the lights change color.
-      we pass a new color from the appropriate weather color pallete and simualate a color loop 
-      with those colors. If syncing is false, the user wants to sync lights so we set
-      syncing to true and sync the lights with the color palette
-      If syncing is true, the user wants to stop the light sync so we cancel the timer
-      and turn off the lights */
-    void syncLights(List lights, List colorPalette, bool lightsSyncing, Timer timer) {
-      // Check if we need to turn the light sync on or off
-      if (lightsSyncing) {
-        lights.forEach((light) {
-          _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
-        });
-      } else {
-        timer.cancel();
-      }
-    }
-
-    // Functions that will be used to change the text of the widget according to the sync state
-    void startTimer() {
-      setState(() {
-        syncButtonText = 'Stop syncing';
-      });
-      print('Light cycle turned on');
-    }
-
-    void stopTimer() {
-      setState(() {
-        syncButtonText = 'Sync';
-      });
-      print('Light cycle turned off');
-    }
 
     // Render the widget now based on whether the weather data has been retrieved or not
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
@@ -168,43 +154,7 @@ class _WeatherPageState extends State<WeatherPage> {
                       ),
                       Container(
                         margin: EdgeInsets.only(right: 30),
-                        child: NeumorphicButton(
-                          style: neumorphicSyncButton,
-                          child: Text(
-                            syncButtonText,
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                          onPressed: () {
-                            // Get the color palette for the lights based on the weather
-                            List lights = Light.listOfLights;
-                            List colorPalette = weatherService.getColorPalette(weatherData[0]["main"]);
-
-                            if (!lightsSyncing) {
-                              setState(() {
-                                lightsSyncing = true;
-                                lights.forEach((light) {
-                                  light.lightState.on = true;
-                                  light.lightState.poweredOn.value = true;
-                                });
-                              });
-                              startTimer();
-                            } else {
-                              setState(() {
-                                lightsSyncing = false;
-                              });
-                              stopTimer();
-                            }
-
-                            // Set the light on immedietly since the timer won't turn on the lights right away
-                            lights.forEach((light) {
-                              _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
-                            });
-
-                            Timer.periodic(Duration(seconds: 5), (timer) {
-                              syncLights(lights, colorPalette, lightsSyncing, timer);
-                            });
-                          },
-                        ),
+                        child: syncButton(),
                       ),
                     ],
                   ),
@@ -217,11 +167,49 @@ class _WeatherPageState extends State<WeatherPage> {
         ),
       );
     } else {
-      // Data is loading
-      return Center(
-        child: CupertinoActivityIndicator(),
-      );
+      return WeatherSkeletonLoading();
     }
+  }
+
+  // This widget will be used for starting the color loop sync with the hue lights
+  Widget syncButton() {
+    return NeumorphicButton(
+      style: neumorphicSyncButton,
+      child: Text(
+        syncButtonText,
+        style: TextStyle(color: Colors.white, fontSize: 15),
+      ),
+      onPressed: () {
+        // Get the color palette for the lights based on the weather
+        List lights = Light.listOfLights;
+        List colorPalette = weatherService.getColorPalette(weatherData[0]["main"]);
+
+        if (!lightsSyncing) {
+          setState(() {
+            lightsSyncing = true;
+            lights.forEach((light) {
+              light.lightState.on = true;
+              light.lightState.poweredOn.value = true;
+            });
+            syncButtonText = 'Stop syncing';
+          });
+        } else {
+          setState(() {
+            lightsSyncing = false;
+            syncButtonText = 'Sync';
+          });
+        }
+
+        // Set the light on immedietly since the timer won't turn on the lights right away
+        lights.forEach((light) {
+          _lightService.syncLightsToWeather(light.id, getRandomColorFromWeatherConditions(colorPalette));
+        });
+
+        Timer.periodic(Duration(seconds: 5), (timer) {
+          syncLights(lights, colorPalette, lightsSyncing, timer);
+        });
+      },
+    );
   }
 
 // This widget will hold all the containers and data that needs to be displayed
