@@ -113,6 +113,8 @@ class _WeatherPageState extends State<WeatherPage> {
       [3, false],
     ];
 
+    var width = MediaQuery.of(context).size.width;
+
     // Render the widget now based on whether the weather data has been retrieved or not
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
@@ -122,7 +124,10 @@ class _WeatherPageState extends State<WeatherPage> {
           children: [
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(left: 30, top: 60, bottom: 10),
+              padding: EdgeInsets.only(
+                left: 30,
+                top: 45,
+              ),
               child: Text(
                 'Weather',
                 style: title,
@@ -131,11 +136,10 @@ class _WeatherPageState extends State<WeatherPage> {
             Container(
               alignment: Alignment.center,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width / 1.15,
-                    margin: EdgeInsets.only(top: 10, bottom: 35),
+                    width: width / 1.15,
+                    margin: EdgeInsets.only(bottom: 25),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
                     ),
@@ -145,7 +149,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 30, bottom: 10),
+                        margin: EdgeInsets.only(left: 30, bottom: 15),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Lights',
@@ -153,7 +157,7 @@ class _WeatherPageState extends State<WeatherPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(right: 30),
+                        margin: EdgeInsets.only(bottom: 15, right: 30),
                         child: syncButton(),
                       ),
                     ],
@@ -220,14 +224,16 @@ class _WeatherPageState extends State<WeatherPage> {
     String feelsLikeTemp = temperatureData[1].round().toString();
     String dailyLow = temperatureData[2].round().toString();
     String dailyHigh = (temperatureData[3].round()).toString();
+    var height = MediaQuery.of(context).size.height;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          padding: EdgeInsets.only(top: 15),
+          margin: EdgeInsets.only(top: 10),
           child: Text(
             city,
-            style: TextStyle(fontSize: 45, color: Colors.white, fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: height * .05, color: Colors.white, fontWeight: FontWeight.w400),
           ),
         ),
         Container(
@@ -238,55 +244,30 @@ class _WeatherPageState extends State<WeatherPage> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 15),
           child: Text(
             temp + ' \u2109',
-            style: TextStyle(fontSize: 55, color: Colors.white, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: height * .06, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 15),
           child: Text(mainWeather,
               style: TextStyle(
-                fontSize: 35,
+                fontSize: height * .04,
                 color: Colors.white,
               )),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: 15),
-              child: Text(dailyLow + ' \u2109',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                  )),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 15),
-              child: Text(' / ',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                  )),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 15),
-              child: Text(dailyHigh + ' \u2109',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                  )),
-            ),
-          ],
+        Container(
+          child: Text(dailyLow + ' \u2109 / ' + dailyHigh + ' \u2109',
+              style: TextStyle(
+                fontSize: height * .03,
+                color: Colors.white,
+              )),
         ),
         Container(
-          padding: EdgeInsets.only(top: 15),
-          margin: EdgeInsets.only(bottom: 20),
+          margin: EdgeInsets.only(bottom: 15),
           child: Text('Feels like ' + feelsLikeTemp + ' \u2109',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: height * .02,
                 color: Colors.white,
               )),
         ),
