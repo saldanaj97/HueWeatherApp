@@ -64,6 +64,7 @@ class _LightsViewState extends State<LightsView> {
   @override
   Widget build(BuildContext context) {
     List _lights = Light.listOfLights;
+
     // Data is ready
     if (_lights.isNotEmpty) {
       return Container(
@@ -110,7 +111,7 @@ class _LightsViewState extends State<LightsView> {
                     child: Text(
                       _lights[index].lightInfo.name,
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 17, color: Colors.white),
                     ),
                   ),
                 ),
