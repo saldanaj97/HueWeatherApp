@@ -22,18 +22,20 @@ class WeatherSkeletonLoading extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.topLeft,
-            padding: EdgeInsets.only(left: 30, top: 60, bottom: 10),
+            padding: EdgeInsets.only(
+              left: 30,
+              top: 45,
+            ),
             child: Text(
               'Weather',
               style: title,
             ),
           ),
           Container(
-            alignment: Alignment.center,
             child: weatherCardSkeleton(context),
           ),
           Container(
-            margin: EdgeInsets.only(left: 30, bottom: 10),
+            margin: EdgeInsets.only(left: 30, bottom: 15),
             alignment: Alignment.centerLeft,
             child: Text(
               'Lights',
@@ -41,7 +43,6 @@ class WeatherSkeletonLoading extends StatelessWidget {
             ),
           ),
           Container(
-            alignment: Alignment.center,
             child: lightsListSkeleton(context),
           ),
           Container(child: Navbar(tabActive))
@@ -66,10 +67,10 @@ class WeatherSkeletonLoading extends StatelessWidget {
               ),
               child: Neumorphic(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         padding: EdgeInsets.only(top: 15),
-                        margin: EdgeInsets.only(bottom: 15),
                         child: SkeletonAnimation(
                           borderRadius: BorderRadius.circular(25.0),
                           child: Container(
@@ -90,7 +91,6 @@ class WeatherSkeletonLoading extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 15),
                         child: SkeletonAnimation(
                           borderRadius: BorderRadius.circular(25.0),
                           child: Container(
@@ -101,7 +101,6 @@ class WeatherSkeletonLoading extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 15),
                         child: SkeletonAnimation(
                           borderRadius: BorderRadius.circular(15.0),
                           child: Container(
@@ -112,7 +111,6 @@ class WeatherSkeletonLoading extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 15),
                         child: SkeletonAnimation(
                           borderRadius: BorderRadius.circular(25.0),
                           child: Container(
@@ -123,7 +121,6 @@ class WeatherSkeletonLoading extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 15),
                         margin: EdgeInsets.only(bottom: 20),
                         child: SkeletonAnimation(
                           borderRadius: BorderRadius.circular(25.0),

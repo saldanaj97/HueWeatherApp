@@ -57,7 +57,7 @@ Widget lightItemSkeleton(BuildContext context) {
   return Column(
     children: [
       Container(
-        margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+        margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10),
         width: MediaQuery.of(context).size.width / 1.15,
         child: Neumorphic(
           style: neumorphicBox,
