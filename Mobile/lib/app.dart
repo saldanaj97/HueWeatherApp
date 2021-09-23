@@ -35,9 +35,12 @@ class HueWeatherSync extends StatelessWidget {
             '/': (context) => WeatherPage(),
             '/settings': (context) => SettingsView(),
             '/moods': (context) => MoodsView(),
-            '/settings/lightlist': (context) => SettingsLightList(),
-            '/settings/bridgeselection': (context) => BridgeSelection(),
-            '/settings/locationpermissions': (context) => LocationPermissions(),
+
+            // When adding a new settings page, make sure to add to the corresponding
+            // index in the settingsItems list in the settings.dart file
+            '/settings/hue/0': (context) => BridgeSelection(),
+            '/settings/hue/1': (context) => SettingsLightList(),
+            '/settings/location/0': (context) => LocationPermissions(),
           },
         );
       }),

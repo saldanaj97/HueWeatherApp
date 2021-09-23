@@ -38,6 +38,7 @@ class SettingsView extends StatelessWidget {
           ),
           Container(
             height: height * .68,
+            width: width * 1,
             child: ListView.builder(
               itemCount: settingsItems.length,
               itemBuilder: (BuildContext context, int index) {
@@ -69,10 +70,25 @@ class SettingsView extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     List<Widget> grouping = [];
+    String settingCategory = '';
+    int settingCategoryCounter = 0; // This counter will track where in the list we are
+
+    if (settingToChange == 0) {
+      settingCategory = 'hue';
+    } else {
+      settingCategory = 'location';
+    }
 
     // Add each container to the grouping list
     settingsItems[settingToChange].forEach(
       (setting) {
+        // Generate the route for the correct settings page
+        var route = '/settings/${settingCategory}/${settingCategoryCounter}';
+
+        // Increment the counter manually to advance in the list
+        settingCategoryCounter += 1;
+
+        // Add each settings list item to the grouping list
         grouping.add(
           Container(
             width: width / 1.15,
@@ -95,7 +111,7 @@ class SettingsView extends StatelessWidget {
                       size: height * .025,
                     ),
                     onPressed: () {
-                      // Navigate to the hue bridge selection page
+                      Navigator.pushNamed(context, route);
                     },
                   ),
                 )

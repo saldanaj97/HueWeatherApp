@@ -8,6 +8,8 @@ class SettingsLightList extends StatefulWidget {
 class _SettingsLightListState extends State<SettingsLightList> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text('Settings Light List'),
+    );
   }
 }
