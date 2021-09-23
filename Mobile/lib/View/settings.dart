@@ -37,13 +37,12 @@ class SettingsView extends StatelessWidget {
             ),
           ),
           Container(
-            height: height * .75,
-            padding: EdgeInsets.all(0),
+            height: height * .68,
             child: ListView.builder(
               itemCount: settingsItems.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  margin: EdgeInsets.only(bottom: 25),
+                  margin: EdgeInsets.only(left: 25, right: 25, bottom: 25),
                   child: Neumorphic(
                     style: neumorphicBox,
                     child: Container(
