@@ -112,64 +112,65 @@ class _WeatherPageState extends State<WeatherPage> {
       [2, false],
       [3, false],
     ];
-
+    var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
     // Render the widget now based on whether the weather data has been retrieved or not
     if (!weatherData.isEmpty && !temperatureData.isEmpty) {
       return CupertinoPageScaffold(
-        backgroundColor: primaryColor,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(
-                left: 30,
-                top: 45,
-              ),
-              child: Text(
-                'Weather',
-                style: title,
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Column(
-                children: [
-                  Container(
-                    width: width / 1.15,
-                    margin: EdgeInsets.only(bottom: 25),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                    ),
-                    child: Neumorphic(child: displayInformation(), style: neumorphicBox),
+          backgroundColor: primaryColor,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(
+                    left: 30,
+                    top: 45,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Text(
+                    'Weather',
+                    style: title,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 30, bottom: 15),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Lights',
-                          style: title,
+                        width: width / 1.15,
+                        margin: EdgeInsets.only(bottom: 25),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.0),
                         ),
+                        child: Neumorphic(child: displayInformation(), style: neumorphicBox),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 15, right: 30),
-                        child: syncButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 30, bottom: 15),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Lights',
+                              style: title,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 15, right: 30),
+                            child: syncButton(),
+                          ),
+                        ],
                       ),
+                      Container(child: LightsView()),
                     ],
                   ),
-                  Container(child: LightsView()),
-                ],
-              ),
+                ),
+                Container(child: Navbar(tabActive))
+              ],
             ),
-            Container(child: Navbar(tabActive))
-          ],
-        ),
-      );
+          ));
     } else {
       return WeatherSkeletonLoading();
     }
