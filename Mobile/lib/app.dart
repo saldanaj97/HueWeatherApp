@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile/View/settings/settingsLightList.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile/Controller/basecommands.dart' as Commands;
 import 'package:mobile/Service/weatherservice.dart';
@@ -32,6 +33,7 @@ class HueWeatherSync extends StatelessWidget {
             '/': (context) => WeatherPage(),
             '/settings': (context) => SettingsView(),
             '/moods': (context) => MoodsView(),
+            '/settings/lightlist': (context) => SettingsLightList(),
           },
         );
       }),
