@@ -99,6 +99,7 @@ class _LightsViewState extends State<LightsView> {
 
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10),
+      height: height * .06,
       width: width / 1.15,
       child: Neumorphic(
         style: neumorphicBox,
