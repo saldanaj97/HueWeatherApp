@@ -63,3 +63,4 @@ Color shadowLightColor_1 = Color.fromRGBO(53, 53, 70, 1);
 
 // Styling for the different headings and titles
 TextStyle title = TextStyle(fontSize: 35, fontWeight: FontWeight.w600);
+TextStyle settingSubListTitle = TextStyle(fontSize: 25, fontWeight: FontWeight.w600);

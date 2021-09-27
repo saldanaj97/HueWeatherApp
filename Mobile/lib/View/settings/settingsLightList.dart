@@ -24,34 +24,41 @@ class _SettingsLightListState extends State<SettingsLightList> {
 
     return CupertinoPageScaffold(
       backgroundColor: primaryColor,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            alignment: Alignment.topLeft,
-            padding: EdgeInsets.only(left: 30, top: 60, bottom: 10),
-            child: Text(
-              'Light List',
-              style: title,
-            ),
+      navigationBar: CupertinoNavigationBar(
+        backgroundColor: primaryColor,
+        border: null,
+        leading: CupertinoButton(
+          child: Icon(
+            CupertinoIcons.back,
+            color: Colors.white,
           ),
-          SizedBox(
-            height: height * .7,
-            child: ListView.builder(
-              itemCount: _lights.length,
-              padding: EdgeInsets.all(0),
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  child: settingsLightListItem(_lights[index]),
-                );
-              },
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        middle: Text(
+          'Light List',
+          style: settingSubListTitle,
+        ),
+      ),
+      child: Container(
+        margin: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            SizedBox(
+              height: height * .7,
+              child: ListView.builder(
+                itemCount: _lights.length,
+                padding: EdgeInsets.all(0),
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: settingsLightListItem(_lights[index]),
+                  );
+                },
+              ),
             ),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: Navbar(tabActive),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
