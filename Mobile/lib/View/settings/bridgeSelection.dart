@@ -4,7 +4,7 @@ import 'package:mobile/View/widgets/navbar.dart';
 import 'package:mobile/View/decorations/decorations.dart';
 
 class BridgeSelection extends StatelessWidget {
-  List tabActive = [
+  final List tabActive = [
     [1, false],
     [2, false],
     [3, true]
