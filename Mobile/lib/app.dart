@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:mobile/View/settings/bridgeSelection.dart';
+import 'package:mobile/View/settings/locationPermissions.dart';
+import 'package:mobile/View/settings/settingsLightList.dart';
 import 'package:mobile/Controller/basecommands.dart' as Commands;
 import 'package:mobile/Service/weatherservice.dart';
 import 'package:mobile/Service/locationservice.dart';
@@ -32,6 +35,12 @@ class HueWeatherSync extends StatelessWidget {
             '/': (context) => WeatherPage(),
             '/settings': (context) => SettingsView(),
             '/moods': (context) => MoodsView(),
+
+            // When adding a new settings page, make sure to add to the corresponding
+            // index in the settingsItems list in the settings.dart file
+            '/settings/hue/0': (context) => BridgeSelection(),
+            '/settings/hue/1': (context) => SettingsLightList(),
+            '/settings/location/0': (context) => LocationPermissions(),
           },
         );
       }),

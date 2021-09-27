@@ -14,6 +14,7 @@ class SettingsView extends StatelessWidget {
       [2, false],
       [3, true]
     ];
+
     // For this list the 1st index is for hue settings, 2nd is for LIFX (coming soon), 3rd for location
     List settingsItems = [
       ['Hue Bridge Selection', 'All Lights'], // Hue Settings
@@ -37,13 +38,14 @@ class SettingsView extends StatelessWidget {
             ),
           ),
           Container(
-            height: height * .75,
-            padding: EdgeInsets.all(0),
+            height: height * .68,
+            width: width * 1,
             child: ListView.builder(
+              padding: EdgeInsets.all(0),
               itemCount: settingsItems.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  margin: EdgeInsets.only(bottom: 25),
+                  margin: EdgeInsets.only(left: 25, right: 25, bottom: 25),
                   child: Neumorphic(
                     style: neumorphicBox,
                     child: Container(
@@ -70,10 +72,25 @@ class SettingsView extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     List<Widget> grouping = [];
+    String settingCategory = '';
+    int settingCategoryCounter = 0; // This counter will track where in the list we are
+
+    if (settingToChange == 0) {
+      settingCategory = 'hue';
+    } else {
+      settingCategory = 'location';
+    }
 
     // Add each container to the grouping list
     settingsItems[settingToChange].forEach(
       (setting) {
+        // Generate the route for the correct settings page
+        var route = '/settings/${settingCategory}/${settingCategoryCounter}';
+
+        // Increment the counter manually to advance in the list
+        settingCategoryCounter += 1;
+
+        // Add each settings list item to the grouping list
         grouping.add(
           Container(
             width: width / 1.15,
@@ -96,7 +113,7 @@ class SettingsView extends StatelessWidget {
                       size: height * .025,
                     ),
                     onPressed: () {
-                      // Navigate to the hue bridge selection page
+                      Navigator.pushNamed(context, route);
                     },
                   ),
                 )

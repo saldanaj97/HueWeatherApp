@@ -17,11 +17,11 @@ class _LightsViewState extends State<LightsView> {
   @override
   void initState() {
     super.initState();
-    this.localBridges();
+    this.lightsConnectedToBridge();
   }
 
   // Method to get the lights connected to a local bridge
-  localBridges() async {
+  lightsConnectedToBridge() async {
     List<dynamic> responseMap;
     LightService _lightService = LightService();
     List lights = [];
@@ -68,21 +68,17 @@ class _LightsViewState extends State<LightsView> {
     // Data is ready
     if (_lights.isNotEmpty) {
       return Container(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 175,
-              child: ListView.builder(
-                itemCount: _lights.length,
-                padding: EdgeInsets.all(0),
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    child: lightItem(_lights[index]),
-                  );
-                },
-              ),
-            ),
-          ],
+        child: SizedBox(
+          height: 175,
+          child: ListView.builder(
+            itemCount: _lights.length,
+            padding: EdgeInsets.all(0),
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: lightItem(_lights[index]),
+              );
+            },
+          ),
         ),
       );
     } else {
