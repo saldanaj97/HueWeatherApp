@@ -14,6 +14,7 @@ class SettingsView extends StatelessWidget {
       [2, false],
       [3, true]
     ];
+
     // For this list the 1st index is for hue settings, 2nd is for LIFX (coming soon), 3rd for location
     List settingsItems = [
       ['Hue Bridge Selection', 'All Lights'], // Hue Settings
@@ -40,6 +41,7 @@ class SettingsView extends StatelessWidget {
             height: height * .68,
             width: width * 1,
             child: ListView.builder(
+              padding: EdgeInsets.all(0),
               itemCount: settingsItems.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
