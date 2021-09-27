@@ -41,6 +41,20 @@ app.get("/conditions/:lat/:long", (req, res) => {
 });
 
 // Hue API
+app.get("/bridges", (req, res) => {
+  v3.discovery
+    .nupnpSearch()
+    .then((searchResults) => {
+      console.log(searchResults);
+      const hostBridge = "192.168.1.150"; //TODO: Change to user selected host address from a DB later on
+      res.send(searchResults);
+    })
+    .catch((err) => {
+      console.log("Error with gathering light info. " + err);
+    });
+});
+
+// Hue API
 app.get("/lights", (req, res) => {
   v3.discovery
     .nupnpSearch()
