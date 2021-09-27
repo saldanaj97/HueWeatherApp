@@ -59,7 +59,7 @@ app.get("/lights", (req, res) => {
       res.send(lights);
     })
     .catch((err) => {
-      console.log("Error with gathering light and bridge info. " + err);
+      console.log("Error with gathering light info. " + err);
     });
 });
 
@@ -77,7 +77,6 @@ app.put("/lights/:LIGHT_ID/:state_val/:brightness", (req, res) => {
       if (lightOn == "true") {
         state.on();
       } else {
-        console.log("off");
         state.off();
       }
 
