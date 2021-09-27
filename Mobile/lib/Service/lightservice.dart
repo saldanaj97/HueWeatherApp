@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class LightService {
   Future<http.Response> getLights() async {
-    return await http.get(Uri.parse('http://localhost:3000/bridges'));
+    return await http.get(Uri.parse('http://localhost:3000/lights'));
   }
 
   Future<http.Response> setLights(ID, state, brightness) async {

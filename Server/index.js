@@ -41,7 +41,7 @@ app.get("/conditions/:lat/:long", (req, res) => {
 });
 
 // Hue API
-app.get("/bridges", (req, res) => {
+app.get("/lights", (req, res) => {
   v3.discovery
     .nupnpSearch()
     .then((searchResults) => {
